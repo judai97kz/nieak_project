@@ -1,3 +1,4 @@
+import 'package:get/get_state_manager/src/simple/get_controllers.dart';
 import 'package:nieak_project/model/shoes_model.dart';
 import 'package:path/path.dart';
 import 'package:sqflite/sqflite.dart';
@@ -10,7 +11,7 @@ class ShoesDatabaseHelper{
     return openDatabase(join(await getDatabasesPath(),_dbName),
         onCreate: (db,version)async{
           await db.execute(
-              "CREATE TABLE Shoe(idshoes TEXT PRIMARY KEY, nameshoes TEXT NOT NULL, price TEXT NOT NULL, color TEXT NOT NULL, size TEXT NOT NULL, brand TEXT NOT NULL);");
+              "CREATE TABLE Shoe(idshoes TEXT PRIMARY KEY, nameshoes TEXT NOT NULL, price TEXT NOT NULL, color TEXT NOT NULL, minsize INTEGER NOT NULL, maxsize INTEGER NOT NULL, brand TEXT NOT NULL, imagenumber INTEGER NOT NULL);");
         },version: _version
     );
   }
@@ -31,21 +32,14 @@ class ShoesDatabaseHelper{
     return await db.delete("Shoe",where: 'idshoes = ?',whereArgs: [shoes.idshoes]);
   }
 
-  static Future<List<Shoes>?> getAllShoes() async{
+  static Future<List<Shoes>?> getAllShoes(String brand) async{
     final db = await _getDB();
-    final List<Map<String,dynamic>> maps = await db.query("Shoe");
+    final List<Map<String,dynamic>> maps = brand=='All'?
+      await db.query("Shoe"):await db.query("Shoe",where: 'brand = ?',whereArgs: [brand]);
     if(maps.isEmpty){
       return null;
     }
     return List.generate(maps.length, (index) => Shoes.fromJson(maps[index]));
   }
-  static Future<List<Shoes>?> getShoesBybrand(String brand) async{
-    final db = await _getDB();
-    final List<Map<String,dynamic>> maps = await db.query("Shoe",where: 'brand = ?',whereArgs: [brand] );
-    if(maps.isEmpty){
-      return null;
-    }
-    return List.generate(maps.length, (index) => Shoes.fromJson(maps[index]));
 
-  }
 }
