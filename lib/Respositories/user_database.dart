@@ -1,10 +1,11 @@
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
+import 'package:nieak_project/Respositories/bill_database.dart';
 import 'package:nieak_project/Respositories/cart_database.dart';
 import 'package:nieak_project/model_view/key_cart_user.dart';
 import 'package:path/path.dart';
 import 'package:sqflite/sqflite.dart';
-
+import 'package:shared_preferences/shared_preferences.dart';
 import '../model/user_model.dart';
 import '../screen/home_page.dart';
 
@@ -40,6 +41,23 @@ class UserDatabaseHelper {
         .delete("User", where: 'username = ?', whereArgs: [user.username]);
   }
 
+  static Future<bool> findUser(String username) async {
+    final db = await _getDB();
+    final List<Map<String, dynamic>> maps =
+        await db.query("User", where: 'username = ?', whereArgs: [username]);
+    if (maps.isEmpty) {
+      return false;
+    }
+    List<User> user = maps.map((a) => User.fromJson(a)).toList();
+
+    for (int i = 0; i < user.length; i++) {
+      if (user[i].username == username) {
+        return true;
+      }
+    }
+    return false;
+  }
+
   static Future<void> getAllUser(
       String username, String password, BuildContext context) async {
     final getIdCart = Get.put(Userid());
@@ -49,17 +67,41 @@ class UserDatabaseHelper {
     if (maps.isEmpty) {
       return;
     }
-
+    int check = 0;
     List<User> users = maps.map((a) => User.fromJson(a)).toList();
     for (int i = 0; i < users.length; i++) {
       if (users[i].username == username && users[i].password == password) {
         getIdCart.updateID(username);
         CartDatabase.getDB(username);
+        BillDatabase.getDB(username);
+
+        final prefs = await SharedPreferences.getInstance();
+        await prefs.setString('username', username);
+        await prefs.setString('password', password);
+        check=0;
         Navigator.pushReplacement(
             context,
             MaterialPageRoute(
                 builder: (context) => HomePage(keycart: 'id${username}')));
+        break;
       }
+      check++;
+    }
+
+    if (check > 0) {
+      AlertDialog alert = AlertDialog(
+        title: Text("Thông báo"),
+        content: Text("Tên Đăng Nhập Và Mật Khẩu Không Chính Xác!"),
+        actions: [
+          ElevatedButton(
+              onPressed: () {
+                Navigator.of(context).pop();
+              },
+              child: Text("Thoát"))
+        ],
+      );
+      showDialog(context: context, builder: (context) => alert);
+      check = 0;
     }
   }
 }

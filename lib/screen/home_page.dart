@@ -1,7 +1,9 @@
 import 'dart:math';
 
+import 'package:anim_search_bar/anim_search_bar.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
+import 'package:intl/intl.dart';
 import 'package:nieak_project/Respositories/add_shoes.dart';
 import 'package:nieak_project/model/shoes_model.dart';
 import 'package:nieak_project/model_view/add_product_to_cart.dart';
@@ -9,6 +11,7 @@ import 'package:nieak_project/model_view/key_cart_user.dart';
 import 'package:nieak_project/screen/cart_screen.dart';
 import 'package:nieak_project/screen/info_page.dart';
 import 'package:nieak_project/model_view/shoes_modelview.dart';
+import 'package:nieak_project/screen/user_page.dart';
 import '../Respositories/shoes_database.dart';
 
 final List<String> entries = <String>['All', 'Nike', 'Puma', 'Adidas'];
@@ -27,6 +30,9 @@ class _HomePageState extends State<HomePage> {
   final idcart = Get.put(Userid());
   final cartView = Get.put(AddProductHelper());
   final AddShoes allShoes = AddShoes();
+
+  final textfind = TextEditingController();
+  NumberFormat myFormat = NumberFormat.decimalPattern('en_us');
   @override
   void initState() {
     // TODO: implement initState
@@ -39,20 +45,44 @@ class _HomePageState extends State<HomePage> {
   Widget build(BuildContext context) {
     return Scaffold(
         appBar: AppBar(
+          title: AnimSearchBar(
+            width: MediaQuery.of(context).orientation == Orientation.portrait
+                ? 300
+                : 600,
+            textController: textfind,
+            onSuffixTap: () {},
+            autoFocus: true,
+            onSubmitted: (String) {
+              shoesView.findShoes(String);
+            },
+          ),
           automaticallyImplyLeading: false,
           actions: [
             ElevatedButton(
                 onPressed: () {
                   cartView.keychange();
                   cartView.fetchAll();
-                  print(idcart.idcart.value.toString());
+
                   Navigator.push(
                       context,
                       MaterialPageRoute(
                         builder: (context) => MyCart(),
                       ));
                 },
-                child: Icon(Icons.shopping_cart))
+                child: Icon(Icons.shopping_cart)),
+            GestureDetector(
+                onTap: () {
+                  Navigator.push(context,
+                      MaterialPageRoute(builder: (context) => UserPage()));
+                },
+                child: Padding(
+                  padding: const EdgeInsets.all(8.0),
+                  child: CircleAvatar(
+                    backgroundImage: AssetImage(
+                      "assets/Nike/Nike1/1.jpg",
+                    ),
+                  ),
+                ))
           ],
         ),
         body: NestedScrollView(
@@ -74,35 +104,45 @@ class _HomePageState extends State<HomePage> {
                           border: Border.all(color: Colors.black)),
                       height: 40,
                       width: double.infinity,
-                      child: ListView.builder(
-                          scrollDirection: Axis.horizontal,
-                          shrinkWrap: true,
-                          itemCount: entries.length,
-                          itemBuilder: (context, index) => GestureDetector(
-                                onTap: () {
-                                  shoesView.fetchAll(entries[index]);
-                                },
-                                child: Padding(
-                                  padding: const EdgeInsets.all(5.0),
-                                  child: Container(
-                                    width: 60,
-                                    height: 40,
-                                    decoration: BoxDecoration(
-                                        borderRadius: BorderRadius.circular(5),
-                                        color: Colors.primaries[Random()
-                                            .nextInt(Colors.primaries.length)]),
-                                    child: Center(
-                                      child: Text(
-                                        entries[index],
-                                        style: TextStyle(color: Colors.white),
+                      child: Container(
+                        child: ListView.builder(
+                            scrollDirection: Axis.horizontal,
+                            shrinkWrap: true,
+                            itemCount: entries.length,
+                            itemBuilder: (context, index) => GestureDetector(
+                                  onTap: () {
+                                    shoesView.fetchAll(entries[index]);
+                                  },
+                                  child: Padding(
+                                    padding: const EdgeInsets.all(5.0),
+                                    child: Container(
+                                      width: 60,
+                                      height: 40,
+                                      decoration: BoxDecoration(
+                                          borderRadius:
+                                              BorderRadius.circular(5),
+                                          color: Colors.primaries[Random()
+                                              .nextInt(
+                                                  Colors.primaries.length)]),
+                                      child: Center(
+                                        child: Text(
+                                          entries[index],
+                                          style: TextStyle(color: Colors.white),
+                                        ),
                                       ),
                                     ),
                                   ),
-                                ),
-                              ))),
+                                )),
+                      )),
                   Obx(
                     () => Expanded(
                         child: GridView.count(
+                      childAspectRatio: MediaQuery.of(context).orientation ==
+                              Orientation.portrait
+                          ? MediaQuery.of(context).size.shortestSide < 350
+                              ? (7 / 8)
+                              : (10 / 13)
+                          : (10 / 11),
                       crossAxisCount: MediaQuery.of(context).orientation ==
                               Orientation.portrait
                           ? 2
@@ -140,12 +180,12 @@ class _HomePageState extends State<HomePage> {
                                             height: MediaQuery.of(context)
                                                         .orientation ==
                                                     Orientation.portrait
-                                                ? 110
+                                                ? 130
                                                 : 150,
                                             width: MediaQuery.of(context)
                                                         .orientation ==
                                                     Orientation.portrait
-                                                ? 110
+                                                ? 130
                                                 : 150,
                                           ),
                                         ),
@@ -162,7 +202,7 @@ class _HomePageState extends State<HomePage> {
                                         SizedBox(
                                             height: 20,
                                             child: Text(
-                                                '${shoesView.allShoes[index].price} đồng.'))
+                                                '${myFormat.format(shoesView.allShoes[index].price)} đồng.'))
                                       ],
                                     ),
                                   ),

@@ -1,20 +1,24 @@
 import 'package:flutter/material.dart';
 
 import 'package:get/get.dart';
+import 'package:intl/intl.dart';
 import 'package:nieak_project/model/cart_model.dart';
 import 'package:nieak_project/model_view/add_product_to_cart.dart';
 
 class ProductWidget extends StatefulWidget {
   final CartModel? model;
   const ProductWidget({super.key, required this.model});
-
   @override
   State<ProductWidget> createState() => _ProductWidgetState();
 }
 
 class _ProductWidgetState extends State<ProductWidget> {
+  NumberFormat myFormat = NumberFormat.decimalPattern('en_us');
+
   @override
   Widget build(BuildContext context) {
+    String editid = widget.model!.idproduct
+        .substring(0, widget.model!.idproduct.length - 2);
     return Padding(
       padding: const EdgeInsets.all(8.0),
       child: Container(
@@ -40,7 +44,7 @@ class _ProductWidgetState extends State<ProductWidget> {
                         decoration: BoxDecoration(
                             border: Border.all(color: Colors.black)),
                         child: Image.asset(
-                          "assets/${widget.model?.brand}/${widget.model?.idproduct}/1.jpg",
+                          "assets/${widget.model?.brand}/${editid}/1.jpg",
                           height: 80,
                           width: 80,
                         ),
@@ -48,7 +52,6 @@ class _ProductWidgetState extends State<ProductWidget> {
                       Padding(
                         padding: const EdgeInsets.all(2.0),
                         child: Column(
-                          textDirection: TextDirection.ltr,
                           children: [
                             SizedBox(
                               width: 150,
@@ -60,7 +63,7 @@ class _ProductWidgetState extends State<ProductWidget> {
                             SizedBox(
                               width: 150,
                               child: Text(
-                                  "Đơn Giá:  ${widget.model?.priceproduct}"),
+                                  "Đơn Giá:  ${myFormat.format(widget.model?.priceproduct)}"),
                             ),
                             SizedBox(
                               width: 150,
@@ -87,6 +90,7 @@ class _ProductWidgetState extends State<ProductWidget> {
                                     deletemodel.deleteProduct(widget.model!);
                                     Navigator.of(context).pop();
                                     deletemodel.keychange();
+                                    deletemodel.allprice.value = 0;
                                     deletemodel.fetchAll();
                                   },
                                   child: Text("Đồng Ý")),
@@ -98,7 +102,7 @@ class _ProductWidgetState extends State<ProductWidget> {
                                   child: Text("Hủy"))
                             ],
                           );
-                          print("Hello");
+
                           showDialog(
                               context: context, builder: (context) => alert);
                         },

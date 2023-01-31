@@ -1,9 +1,15 @@
+import 'dart:ffi';
+
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
+import 'package:intl/intl.dart';
 import 'package:nieak_project/mini_widget/product_widget.dart';
+import 'package:nieak_project/model/bill_model.dart';
 import 'package:nieak_project/model_view/add_cart.dart';
 import 'package:nieak_project/model_view/add_product_to_cart.dart';
+import 'package:nieak_project/model_view/bill_modelview.dart';
 import 'package:nieak_project/model_view/key_cart_user.dart';
+import 'package:nieak_project/screen/pay_screen.dart';
 
 class MyCart extends StatefulWidget {
   const MyCart({super.key});
@@ -15,6 +21,8 @@ class MyCart extends StatefulWidget {
 class _MyCartState extends State<MyCart> {
   final mycart = Get.put(AddProductHelper());
   final usercart = Get.put(Userid());
+  final pay = Get.put(BillDatabaseHelper());
+  NumberFormat myFormat = NumberFormat.decimalPattern('en_us');
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -77,11 +85,26 @@ class _MyCartState extends State<MyCart> {
                         crossAxisAlignment: CrossAxisAlignment.center,
                         mainAxisAlignment: MainAxisAlignment.end,
                         children: [
-                          Text("Tổng tiền:"),
+                          Text(
+                              "Tổng tiền: ${myFormat.format(mycart.allprice.toInt())}"),
+                          SizedBox(
+                            width: 20,
+                          ),
                           Align(
-                            child: ElevatedButton(
-                              child: Text("Thanh Toán"),
-                              onPressed: null,
+                            child: Padding(
+                              padding: const EdgeInsets.all(2.0),
+                              child: ElevatedButton(
+                                child: Text("Thanh Toán"),
+                                onPressed: mycart.allProduct.length == 0
+                                    ? null
+                                    : () {
+                                        Navigator.push(
+                                            context,
+                                            MaterialPageRoute(
+                                                builder: (context) =>
+                                                    PayScreen()));
+                                      },
+                              ),
                             ),
                           )
                         ]),

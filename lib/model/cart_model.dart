@@ -1,7 +1,9 @@
+import 'dart:ffi';
+
 class CartModel {
   final String idproduct;
   final String nameproduct;
-  final String priceproduct;
+  final int priceproduct;
   final int amoutproduct;
   final int sizeproduct;
   final String brand;

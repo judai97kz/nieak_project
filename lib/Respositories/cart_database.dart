@@ -13,7 +13,7 @@ class CartDatabase {
     return openDatabase(join(await getDatabasesPath(), "id${_dbName}.id"),
         onCreate: (db, version) async {
       await db.execute(
-          "CREATE TABLE id${idcartkey.idcart.value}(idproduct TEXT PRIMARY KEY, nameproduct TEXT NOT NULL, priceproduct TEXT NOT NULL, amoutproduct INTEGER NOT NULL, sizeproduct INTEGER NOT NULL, brand TEXT NOT NULL);");
+          "CREATE TABLE id${idcartkey.idcart.value}(idproduct TEXT PRIMARY KEY, nameproduct TEXT NOT NULL, priceproduct INTEGER NOT NULL, amoutproduct INTEGER NOT NULL, sizeproduct INTEGER NOT NULL, brand TEXT NOT NULL);");
     }, version: _version);
   }
 
