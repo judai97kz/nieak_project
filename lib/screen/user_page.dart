@@ -3,6 +3,7 @@ import 'package:flutter/src/widgets/container.dart';
 import 'package:flutter/src/widgets/framework.dart';
 import 'package:nieak_project/screen/bill_screen.dart';
 import 'package:nieak_project/screen/login_page.dart';
+import 'package:nieak_project/screen/userinfo_screen.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 
 class UserPage extends StatefulWidget {
@@ -49,8 +50,11 @@ class _UserPageState extends State<UserPage> {
           body: Center(
             child: Column(children: [
               GestureDetector(
-                onTap: () {},
-                child: ButtonAreaEdit("Chỉnh Sửa Thông Tin", Icon(Icons.person),
+                onTap: () {
+                  Navigator.push(context,
+                      MaterialPageRoute(builder: (context) => UserInfoPage()));
+                },
+                child: ButtonAreaEdit("Thông Tin Cá Nhân", Icon(Icons.person),
                     Colors.cyanAccent),
               ),
               GestureDetector(

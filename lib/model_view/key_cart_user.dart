@@ -8,7 +8,6 @@ class Userid extends GetxController {
   void onInit() {
     // TODO: implement onInit
     super.onInit();
-
     update();
   }
 

@@ -8,6 +8,7 @@ import 'package:nieak_project/model_view/add_product_to_cart.dart';
 import 'package:nieak_project/model_view/bill_modelview.dart';
 import 'package:nieak_project/model_view/key_cart_user.dart';
 import 'package:nieak_project/screen/cm_screen.dart';
+import 'package:nieak_project/model_view/accept_modelview.dart';
 
 class PayScreen extends StatefulWidget {
   const PayScreen({super.key});
@@ -20,21 +21,8 @@ class _PayScreenState extends State<PayScreen> {
   final getcart = Get.put(AddProductHelper());
   final pay = Get.put(BillDatabaseHelper());
   final userinfo = Get.put(Userid());
+  final accept = Get.put(AcceptModelView());
   NumberFormat myFormat = NumberFormat.decimalPattern('en_us');
-  String name = "";
-
-  void printBill() {
-    for (int i = 0; i < getcart.allProduct.length; i++) {
-      name += " - " +
-          getcart.allProduct[i].nameproduct.toString() +
-          " Size " +
-          getcart.allProduct[i].sizeproduct.toString() +
-          " x" +
-          getcart.allProduct[i].amoutproduct.toString() +
-          "\n";
-    }
-  }
-
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -86,80 +74,154 @@ class _PayScreenState extends State<PayScreen> {
                     ),
                 ],
               ),
-
               Align(
                 alignment: Alignment.bottomCenter,
                 child: Container(
                   height: 140,
                   child: Column(
-                   children: [
-
-                     Container(decoration: BoxDecoration(
-                       border: Border.all(color: Colors.black)
-                     ),),
-                     Container(child: Text("Thông Tin Người Nhận"),),
-                     Padding(
-                       padding: const EdgeInsets.only(right: 15.0,left: 15.0),
-                       child: Container(decoration: BoxDecoration(
-                           border: Border.all(color: Colors.black)
-                       ),),
-                     ),
-                     Padding(
-                       padding: const EdgeInsets.only(right: 80.0,top: 2.0,bottom: 2.0,left: 20.0),
-                       child: Align(alignment: Alignment.bottomLeft,child: Container(child: Text("Người Nhận: ${userinfo.user.value!.name}"),)),
-                     ),
-                     Padding(
-                       padding: const EdgeInsets.only(right: 8.0,top: 2.0,bottom: 2.0,left: 20.0),
-                       child: Align(alignment: Alignment.centerLeft,child: Container(child: Text("Điện Thoại: ${userinfo.user.value!.phone}"),)),
-                     ),
-                      Padding(
-                        padding: const EdgeInsets.only(right: 8.0,top: 2.0,bottom: 2.0,left: 20.0),
-                        child: Align(alignment: Alignment.centerLeft,child:    Container(child: Text("Địa Chỉ: ${userinfo.user.value!.address}"),),),
+                    children: [
+                      Container(
+                        decoration: BoxDecoration(
+                            border: Border.all(color: Colors.black)),
                       ),
-                     Padding(
-                       padding: const EdgeInsets.only(right: 15.0,left: 15.0),
-                       child: Container(decoration: BoxDecoration(
-                           border: Border.all(color: Colors.black)
-                       ),),
-                     ),
-                     Padding(
-                       padding: const EdgeInsets.all(1.0),
-                       child: Container(child: Text("Tổng Tiền: ${myFormat.format(getcart.allprice.toInt())} "),),
-                     ),
+                      Container(
+                        child: Text("Thông Tin Người Nhận"),
+                      ),
+                      Padding(
+                        padding: const EdgeInsets.only(right: 15.0, left: 15.0),
+                        child: Container(
+                          decoration: BoxDecoration(
+                              border: Border.all(color: Colors.black)),
+                        ),
+                      ),
+                      Padding(
+                        padding: const EdgeInsets.only(
+                            right: 80.0, top: 2.0, bottom: 2.0, left: 20.0),
+                        child: Align(
+                            alignment: Alignment.bottomLeft,
+                            child: Container(
+                              child: Text(
+                                  "Người Nhận: ${userinfo.user.value!.name}"),
+                            )),
+                      ),
+                      Padding(
+                        padding: const EdgeInsets.only(
+                            right: 8.0, top: 2.0, bottom: 2.0, left: 20.0),
+                        child: Align(
+                            alignment: Alignment.centerLeft,
+                            child: Container(
+                              child: Text(
+                                  "Điện Thoại: ${userinfo.user.value!.phone}"),
+                            )),
+                      ),
+                      Padding(
+                        padding: const EdgeInsets.only(
+                            right: 8.0, top: 2.0, bottom: 2.0, left: 20.0),
+                        child: Align(
+                          alignment: Alignment.centerLeft,
+                          child: Container(
+                            child: Text(
+                                "Địa Chỉ: ${userinfo.user.value!.address}"),
+                          ),
+                        ),
+                      ),
+                      Padding(
+                        padding: const EdgeInsets.only(right: 15.0, left: 15.0),
+                        child: Container(
+                          decoration: BoxDecoration(
+                              border: Border.all(color: Colors.black)),
+                        ),
+                      ),
+                      Padding(
+                        padding: const EdgeInsets.all(1.0),
+                        child: Container(
+                          child: Text(
+                              "Tổng Tiền: ${myFormat.format(getcart.allprice.toInt())} "),
+                        ),
+                      ),
+                      GestureDetector(
+                          onTap: () {
+                            AlertDialog alert = AlertDialog(
+                              title: Text("Thông báo"),
+                              content: Text(
+                                  "Bạn có muốn thanh toán hóa đơn này không?"),
+                              actions: [
+                                ElevatedButton(
+                                    onPressed: () {
+                                      final checkacept =
+                                          TextEditingController();
+                                      AlertDialog alert = AlertDialog(
+                                        title: Text("Xác Nhận"),
+                                        content: Obx(
+                                          () => SingleChildScrollView(
+                                            child: Column(
+                                              children: [
+                                                Text(
+                                                    "Nhập Mật Khẩu Để Xác Nhận"),
+                                                TextField(
+                                                  decoration: InputDecoration(
+                                                      errorText: accept
+                                                                  .acceptnull ==
+                                                              1
+                                                          ? "Không Được Để Trống!"
+                                                          : accept.acceptstate ==
+                                                                  1
+                                                              ? "Mật Khẩu Không Chính Xác!"
+                                                              : null),
+                                                  controller: checkacept,
+                                                ),
+                                              ],
+                                            ),
+                                          ),
+                                        ),
+                                        actions: [
+                                          ElevatedButton(
+                                              onPressed: () {
+                                                accept.AcceptBill(
+                                                    checkacept.text, context);
+                                              },
+                                              child: Text("Xác Nhận")),
+                                          SizedBox(),
+                                          ElevatedButton(
+                                              onPressed: () {
+                                                accept.acceptstate.value = 0;
+                                                accept.acceptnull.value = 0;
+                                                Navigator.of(context).pop();
+                                              },
+                                              child: Text("Hủy"))
+                                        ],
+                                      );
 
-                     GestureDetector(
-                         onTap: () {
-                           printBill();
-                           DateTime now = new DateTime.now();
-                           var formatter = new DateFormat('yyyy-MM-dd');
-                           String formattedDate = formatter.format(now);
-                           BillModel a = BillModel(
-                               idbill: now.toString(),
-                               billtime: formattedDate,
-                               contentbill: name,
-                               pricebill: getcart.allprice.toInt());
-                           pay.addBill(a);
-                           for (int i = 0; i < getcart.allProduct.length; i++) {
-                             getcart.deleteProduct(getcart.allProduct[i]);
-                           }
-                           getcart.allProduct.value = [];
-                           getcart.allprice.value = 0;
-                           Navigator.of(context).pushAndRemoveUntil(
-                               MaterialPageRoute(builder: (context) => CMScreen()),
-                                   (Route<dynamic> route) => false);
-                         },
-                         child: Container(
-                           decoration: BoxDecoration(
-                               color: Colors.blue,
-                               border: Border.all(color: Colors.black)),
-                           height: 40,
-                           child: Center(
-                               child: Text(
-                                 "Thanh Toán",
-                                 style: TextStyle(color: Colors.white, fontSize: 30),
-                               )),
-                         )),
-                   ],
+                                      showDialog(
+                                          barrierDismissible: false,
+                                          context: context,
+                                          builder: (context) => alert);
+                                    },
+                                    child: Text("Đồng Ý")),
+                                SizedBox(),
+                                ElevatedButton(
+                                    onPressed: () {
+                                      Navigator.of(context).pop();
+                                    },
+                                    child: Text("Hủy"))
+                              ],
+                            );
+                            showDialog(
+                                context: context, builder: (context) => alert);
+                          },
+                          child: Container(
+                            decoration: BoxDecoration(
+                                color: Colors.blue,
+                                border: Border.all(color: Colors.black)),
+                            height: 40,
+                            child: Center(
+                                child: Text(
+                              "Thanh Toán",
+                              style:
+                                  TextStyle(color: Colors.white, fontSize: 30),
+                            )),
+                          )),
+                    ],
                   ),
                 ),
               )

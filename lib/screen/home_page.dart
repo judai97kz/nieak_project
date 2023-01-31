@@ -139,8 +139,8 @@ class _HomePageState extends State<HomePage> {
                         child: GridView.count(
                       childAspectRatio: MediaQuery.of(context).orientation ==
                               Orientation.portrait
-                          ? MediaQuery.of(context).size.shortestSide < 350
-                              ? (7 / 8)
+                          ? WidgetsBinding.instance.window.physicalSize.height < 1300
+                              ? (9 / 10)
                               : (10 / 13)
                           : (10 / 11),
                       crossAxisCount: MediaQuery.of(context).orientation ==
@@ -199,10 +199,20 @@ class _HomePageState extends State<HomePage> {
                                             textAlign: TextAlign.center,
                                           ),
                                         ),
-                                        SizedBox(
-                                            height: 20,
-                                            child: Text(
-                                                '${myFormat.format(shoesView.allShoes[index].price)} đồng.'))
+                                        Padding(
+                                          padding: const EdgeInsets.only(right: 15.0, left: 15.0),
+                                          child: Container(
+                                            decoration: BoxDecoration(
+                                                border: Border.all(color: Colors.black)),
+                                          ),
+                                        ),
+                                        Padding(
+                                          padding: const EdgeInsets.all(1.0),
+                                          child: SizedBox(
+                                              height: 20,
+                                              child: Text(
+                                                  '${myFormat.format(shoesView.allShoes[index].price)} đồng.')),
+                                        )
                                       ],
                                     ),
                                   ),
