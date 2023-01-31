@@ -46,7 +46,7 @@ class _MyCartState extends State<MyCart> {
                           height: 30,
                           child: Center(
                               child: Text(
-                                  "Giỏ Hàng của ${usercart.idcart.value}"))),
+                                  "Giỏ Hàng của ${usercart.user.value?.name}"))),
                       Container(
                         decoration: BoxDecoration(
                             border: Border.all(color: Colors.red)),

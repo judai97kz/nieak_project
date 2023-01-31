@@ -10,41 +10,41 @@ class CartDatabase {
 
   static Future<Database> getDB(var _dbName) async {
     print(_dbName);
-    return openDatabase(join(await getDatabasesPath(), "id${_dbName}.id"),
+    return openDatabase(join(await getDatabasesPath(), "${_dbName}.db"),
         onCreate: (db, version) async {
       await db.execute(
-          "CREATE TABLE id${idcartkey.idcart.value}(idproduct TEXT PRIMARY KEY, nameproduct TEXT NOT NULL, priceproduct INTEGER NOT NULL, amoutproduct INTEGER NOT NULL, sizeproduct INTEGER NOT NULL, brand TEXT NOT NULL);");
+          "CREATE TABLE ${idcartkey.user.value!.idcart}(idproduct TEXT PRIMARY KEY, nameproduct TEXT NOT NULL, priceproduct INTEGER NOT NULL, amoutproduct INTEGER NOT NULL, sizeproduct INTEGER NOT NULL, brand TEXT NOT NULL);");
     }, version: _version);
   }
 
   static Future<int> addShoes(CartModel shoes) async {
-    final String dbName = idcartkey.idcart.value;
+    final String dbName = idcartkey.user.value!.username;
     final db = await getDB(dbName);
-    return await db.insert("id${idcartkey.idcart.value}", shoes.toJson(),
+    return await db.insert("${idcartkey.user.value!.idcart}", shoes.toJson(),
         conflictAlgorithm: ConflictAlgorithm.replace);
   }
 
   static Future<int> updateShoes(CartModel shoes) async {
-    final String dbName = idcartkey.idcart.value;
+    final String dbName = idcartkey.user.value!.username;
     final db = await getDB(dbName);
-    return await db.update("id${idcartkey.idcart.value}", shoes.toJson(),
+    return await db.update("${idcartkey.user.value!.idcart}", shoes.toJson(),
         where: 'idproduct = ?',
         whereArgs: [shoes.idproduct],
         conflictAlgorithm: ConflictAlgorithm.replace);
   }
 
   static Future<int> deleteShoes(CartModel shoes) async {
-    final String dbName = idcartkey.idcart.value;
+    final String dbName = idcartkey.user.value!.username;
     final db = await getDB(dbName);
-    return await db.delete("id${idcartkey.idcart.value}",
+    return await db.delete("${idcartkey.user.value!.idcart}",
         where: 'idproduct = ?', whereArgs: [shoes.idproduct]);
   }
 
   static Future<List<CartModel>?> getAllShoes() async {
-    final String dbName = idcartkey.idcart.value;
+    final String dbName = idcartkey.user.value!.username;
     final db = await getDB(dbName);
     final List<Map<String, dynamic>> maps =
-        await db.query("id${idcartkey.idcart.value}");
+        await db.query("${idcartkey.user.value!.idcart}");
     if (maps.isEmpty) {
       return null;
     }

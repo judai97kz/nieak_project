@@ -114,25 +114,28 @@ class _LoginPageState extends State<LoginPage> {
                   child: Text("Hoặc"),
                 ),
               ),
-              Row(
-                mainAxisAlignment: MainAxisAlignment.center,
-                children: [
-                  Text("Chưa có tài khoản?"),
-                  GestureDetector(
-                    onTap: () {
-                      Navigator.push(
-                          context,
-                          MaterialPageRoute(
-                              builder: (context) => SignupPage()));
-                    },
-                    child: Text(
-                      "Đăng ký ngay!",
-                      style: TextStyle(
-                          decoration: TextDecoration.underline,
-                          color: Colors.blue),
-                    ),
-                  )
-                ],
+              GestureDetector(
+                onTap: (){
+                  Navigator.push(
+                      context,
+                      MaterialPageRoute(
+                          builder: (context) => SignupPage()));
+                },
+                child: Row(
+                  mainAxisAlignment: MainAxisAlignment.center,
+                  children: [
+                    Text("Chưa có tài khoản?"),
+                    GestureDetector(
+
+                      child: Text(
+                        "Đăng ký ngay!",
+                        style: TextStyle(
+                            decoration: TextDecoration.underline,
+                            color: Colors.blue),
+                      ),
+                    )
+                  ],
+                ),
               )
             ],
           ),

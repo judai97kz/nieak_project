@@ -19,14 +19,14 @@ class BillDatabase {
   }
 
   static Future<int> addBill(BillModel bill) async {
-    final String dbName = idcartkey.idcart.value;
+    final String dbName = idcartkey.user.value!.username;
     final db = await getDB(dbName);
     return await db.insert("bill", bill.toJson(),
         conflictAlgorithm: ConflictAlgorithm.replace);
   }
 
   static Future<int> updateBill(BillModel bill) async {
-    final String dbName = idcartkey.idcart.value;
+    final String dbName = idcartkey.user.value!.username;
     final db = await getDB(dbName);
     return await db.update("bill", bill.toJson(),
         where: 'idbill = ?',
@@ -35,14 +35,14 @@ class BillDatabase {
   }
 
   static Future<int> deleteBill(BillModel bill) async {
-    final String dbName = idcartkey.idcart.value;
+    final String dbName = idcartkey.user.value!.username;
     final db = await getDB(dbName);
     return await db
         .delete("bill", where: 'idbill = ?', whereArgs: [bill.idbill]);
   }
 
   static Future<List<BillModel>?> getAllBill() async {
-    final String dbName = idcartkey.idcart.value;
+    final String dbName = idcartkey.user.value!.username;
     final db = await getDB(dbName);
     final List<Map<String, dynamic>> maps = await db.query("bill");
     if (maps.isEmpty) {

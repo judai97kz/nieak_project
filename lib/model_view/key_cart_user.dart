@@ -1,16 +1,18 @@
 import 'package:get/get.dart';
+import 'package:nieak_project/model/user_model.dart';
+import 'package:nieak_project/model/user_model.dart';
 
 class Userid extends GetxController {
-  var idcart = "".obs;
+  final user = Rxn<User>();
   @override
   void onInit() {
     // TODO: implement onInit
     super.onInit();
-    idcart;
+
     update();
   }
 
-  updateID(var id) {
-    idcart.value = id;
+  updateID(User value) {
+    user.value = value;
   }
 }

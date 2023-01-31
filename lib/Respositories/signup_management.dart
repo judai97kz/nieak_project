@@ -26,12 +26,22 @@ class SignupManagement extends GetxController {
     } else {
       checkallnull.value = 0;
     }
+    if (username.length < 8) {
+      textuser.value = 1;
+    } else {
+      textuser.value = 0;
+    }
+    if (password.length < 8) {
+      textpass.value = 1;
+    } else {
+      textpass.value = 0;
+    }
     if (repeat == "") {
       textrepeat.value = 1;
     } else {
       textrepeat.value = 0;
     }
-    if (name.length < 10) {
+    if (name=="") {
       textname.value = 1;
     } else {
       textname.value = 0;
@@ -70,16 +80,6 @@ class SignupManagement extends GetxController {
       }
     }else{
       print("KO");
-      if (username.length < 8) {
-        textuser.value = 1;
-      } else {
-        textuser.value = 0;
-      }
-      if (password.length < 8) {
-        textpass.value = 1;
-      } else {
-        textpass.value = 0;
-      }
     }
   }
 }

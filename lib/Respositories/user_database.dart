@@ -71,7 +71,14 @@ class UserDatabaseHelper {
     List<User> users = maps.map((a) => User.fromJson(a)).toList();
     for (int i = 0; i < users.length; i++) {
       if (users[i].username == username && users[i].password == password) {
-        getIdCart.updateID(username);
+        User updateuser = User(
+            username: users[i].username,
+            password: users[i].password,
+            name: users[i].name,
+            phone: users[i].phone,
+            address: users[i].address,
+            idcart: users[i].idcart);
+        getIdCart.updateID(updateuser);
         CartDatabase.getDB(username);
         BillDatabase.getDB(username);
 
@@ -82,7 +89,7 @@ class UserDatabaseHelper {
         Navigator.pushReplacement(
             context,
             MaterialPageRoute(
-                builder: (context) => HomePage(keycart: 'id${username}')));
+                builder: (context) => HomePage(keycart: users[i].idcart)));
         break;
       }
       check++;
