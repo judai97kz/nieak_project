@@ -6,6 +6,7 @@ import 'package:intl/intl.dart';
 import 'package:nieak_project/model/bill_model.dart';
 import 'package:nieak_project/model_view/add_product_to_cart.dart';
 import 'package:nieak_project/model_view/bill_modelview.dart';
+import 'package:nieak_project/model_view/hide_modelview.dart';
 import 'package:nieak_project/model_view/key_cart_user.dart';
 import 'package:nieak_project/screen/cm_screen.dart';
 import 'package:nieak_project/model_view/accept_modelview.dart';
@@ -150,6 +151,7 @@ class _PayScreenState extends State<PayScreen> {
                                     onPressed: () {
                                       final checkacept =
                                           TextEditingController();
+                                      final checkHide = Get.put(HideModelView());
                                       AlertDialog alert = AlertDialog(
                                         title: Text("Xác Nhận"),
                                         content: Obx(
@@ -158,18 +160,41 @@ class _PayScreenState extends State<PayScreen> {
                                               children: [
                                                 Text(
                                                     "Nhập Mật Khẩu Để Xác Nhận"),
-                                                TextField(
-                                                  decoration: InputDecoration(
-                                                      errorText: accept
-                                                                  .acceptnull ==
-                                                              1
-                                                          ? "Không Được Để Trống!"
-                                                          : accept.acceptstate ==
-                                                                  1
-                                                              ? "Mật Khẩu Không Chính Xác!"
-                                                              : null),
-                                                  controller: checkacept,
+                                                Stack(
+                                                  children: [
+                                                    Padding(
+                                                      padding: const EdgeInsets.all(8.0),
+                                                      child: TextField(
+                                                        obscureText: checkHide.hideaccept.value == 1?false:true,
+                                                        decoration: InputDecoration(
+                                                            errorText: accept
+                                                                .acceptnull ==
+                                                                1
+                                                                ? "Không Được Để Trống!"
+                                                                : accept.acceptstate ==
+                                                                1
+                                                                ? "Mật Khẩu Không Chính Xác!"
+                                                                : null),
+                                                        controller: checkacept,
+                                                      ),
+                                                    ),
+                                                    Align(
+                                                      alignment: Alignment.centerRight,
+                                                      child: Padding(
+                                                        padding: EdgeInsets.fromLTRB(10, 18, 10, 0),
+                                                        child: GestureDetector(
+                                                          onTap: () {
+                                                            checkHide.updateinaccept();
+                                                          },
+                                                          child: Icon(checkHide.hideaccept.value == 1
+                                                              ? Icons.remove_red_eye
+                                                              : Icons.remove_red_eye_outlined),
+                                                        ),
+                                                      ),
+                                                    )
+                                                  ],
                                                 ),
+
                                               ],
                                             ),
                                           ),

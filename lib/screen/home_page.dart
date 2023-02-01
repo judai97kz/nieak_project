@@ -14,7 +14,7 @@ import 'package:nieak_project/model_view/shoes_modelview.dart';
 import 'package:nieak_project/screen/user_page.dart';
 import '../Respositories/shoes_database.dart';
 
-final List<String> entries = <String>['All', 'Nike', 'Puma', 'Adidas'];
+final List<String> entries = <String>['All', 'Nike', 'Puma', 'Adidas', 'Dior'];
 String catelogy = 'All';
 
 class HomePage extends StatefulWidget {
@@ -139,7 +139,8 @@ class _HomePageState extends State<HomePage> {
                         child: GridView.count(
                       childAspectRatio: MediaQuery.of(context).orientation ==
                               Orientation.portrait
-                          ? WidgetsBinding.instance.window.physicalSize.height < 1300
+                          ? WidgetsBinding.instance.window.physicalSize.height <
+                                  1300
                               ? (9 / 10)
                               : (10 / 13)
                           : (10 / 11),
@@ -197,13 +198,16 @@ class _HomePageState extends State<HomePage> {
                                           child: Text(
                                             shoesView.allShoes[index].nameshoes,
                                             textAlign: TextAlign.center,
+                                            style: TextStyle(fontSize: 11.5),
                                           ),
                                         ),
                                         Padding(
-                                          padding: const EdgeInsets.only(right: 15.0, left: 15.0),
+                                          padding: const EdgeInsets.only(
+                                              right: 15.0, left: 15.0),
                                           child: Container(
                                             decoration: BoxDecoration(
-                                                border: Border.all(color: Colors.black)),
+                                                border: Border.all(
+                                                    color: Colors.black)),
                                           ),
                                         ),
                                         Padding(

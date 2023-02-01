@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter/src/widgets/container.dart';
 import 'package:flutter/src/widgets/framework.dart';
 import 'package:nieak_project/screen/bill_screen.dart';
+import 'package:nieak_project/screen/infoapp_page.dart';
 import 'package:nieak_project/screen/login_page.dart';
 import 'package:nieak_project/screen/userinfo_screen.dart';
 import 'package:shared_preferences/shared_preferences.dart';
@@ -54,8 +55,8 @@ class _UserPageState extends State<UserPage> {
                   Navigator.push(context,
                       MaterialPageRoute(builder: (context) => UserInfoPage()));
                 },
-                child: ButtonAreaEdit("Thông Tin Cá Nhân", Icon(Icons.person),
-                    Colors.cyanAccent),
+                child: ButtonAreaEdit(
+                    "Thông Tin Cá Nhân", Icon(Icons.person), Colors.cyanAccent),
               ),
               GestureDetector(
                 onTap: () {
@@ -65,8 +66,14 @@ class _UserPageState extends State<UserPage> {
                 child: ButtonAreaEdit("Lịch Sử Mua Hàng",
                     Icon(Icons.shopping_basket), Colors.red),
               ),
-              ButtonAreaEdit(
-                  "Thông Tin Liên Hệ", Icon(Icons.call), Colors.green),
+              GestureDetector(
+                onTap: () {
+                  Navigator.push(context,
+                      MaterialPageRoute(builder: (context) => InfoAppPage()));
+                },
+                child: ButtonAreaEdit(
+                    "Thông Tin Liên Hệ", Icon(Icons.call), Colors.green),
+              ),
               ElevatedButton(
                   onPressed: () async {
                     final prefs = await SharedPreferences.getInstance();

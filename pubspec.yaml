@@ -73,8 +73,21 @@ flutter:
    - assets/
    - assets/Nike/Nike1/
    - assets/Nike/Nike2/
+   - assets/Nike/Nike3/
+   - assets/Nike/Nike4/
+   - assets/Nike/Nike5/
    - assets/Puma/Puma1/
+   - assets/Puma/Puma2/
+   - assets/Puma/Puma3/
+   - assets/Puma/Puma4/
+   - assets/Puma/Puma5/
    - assets/Adidas/Adidas1/
+   - assets/Adidas/Adidas2/
+   - assets/Adidas/Adidas3/
+   - assets/Adidas/Adidas4/
+   - assets/Adidas/Adidas5/
+   - assets/Dior/Dior1/
+   - assets/Dior/Dior2/
 
   # An image asset can refer to one or more resolution-specific "variants", see
   # https://flutter.dev/assets-and-images/#resolution-aware

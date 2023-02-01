@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:nieak_project/Respositories/signup_management.dart';
 import 'package:nieak_project/model/user_model.dart';
+import 'package:nieak_project/model_view/hide_modelview.dart';
 
 import '../Respositories/user_database.dart';
 
@@ -21,6 +22,7 @@ class _SignupPageState extends State<SignupPage> {
   final _phonecontroller = TextEditingController();
   final _addresscontroller = TextEditingController();
   final checksignup = Get.put(SignupManagement());
+  final checkHide = Get.put(HideModelView());
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -50,24 +52,44 @@ class _SignupPageState extends State<SignupPage> {
                   controller: _usernamecontroller,
                 ),
               ),
-              Padding(
-                padding: const EdgeInsets.all(8.0),
-                child: TextField(
-                  decoration: InputDecoration(
-                    labelText: "Mật Khẩu",
-                      enabledBorder: OutlineInputBorder(
-                          borderRadius: BorderRadius.circular(20),
-                          borderSide:
+              Stack(
+                children: [
+                  Padding(
+                    padding: const EdgeInsets.all(8.0),
+                    child: TextField(
+                      obscureText:  checkHide.hidesignup.value == 1?false:true,
+                      decoration: InputDecoration(
+                          labelText: "Mật Khẩu",
+                          enabledBorder: OutlineInputBorder(
+                              borderRadius: BorderRadius.circular(20),
+                              borderSide:
                               BorderSide(width: 1, color: Colors.cyanAccent)),
-                      errorText: checksignup.textpass == 1
-                          ? "Mật Khẩu Không Được Để Trống Và Độ Dài Không Nhỏ Hơn 8!"
-                          : null),
-                  controller: _passwordcontroller,
-                ),
+                          errorText: checksignup.textpass == 1
+                              ? "Mật Khẩu Không Được Để Trống Và Độ Dài Không Nhỏ Hơn 8!"
+                              : null),
+                      controller: _passwordcontroller,
+                    ),
+                  ),
+                  Align(
+                    alignment: Alignment.centerRight,
+                    child: Padding(
+                      padding: EdgeInsets.fromLTRB(10, 25, 20, 0),
+                      child: GestureDetector(
+                        onTap: () {
+                          checkHide.updateinsignup();
+                        },
+                        child: Icon(checkHide.hidesignup.value == 1
+                            ? Icons.remove_red_eye
+                            : Icons.remove_red_eye_outlined),
+                      ),
+                    ),
+                  )
+                ],
               ),
               Padding(
                 padding: const EdgeInsets.all(8.0),
                 child: TextField(
+                  obscureText:  checkHide.hidesignup.value == 1?false:true,
                   decoration: InputDecoration(
                     labelText: "Mật Khẩu Lặp Lại",
                       enabledBorder: OutlineInputBorder(

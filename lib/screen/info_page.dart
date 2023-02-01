@@ -188,7 +188,8 @@ class _InfoPageState extends State<InfoPage> {
                                                       Axis.horizontal,
                                                   shrinkWrap: true,
                                                   itemCount:
-                                                      widget.shoes.maxsize -
+                                                      widget.shoes.maxsize +
+                                                          1 -
                                                           widget.shoes.minsize,
                                                   itemBuilder:
                                                       (context, index) {

@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:nieak_project/Respositories/login_management.dart';
+import 'package:nieak_project/model_view/hide_modelview.dart';
 import 'package:nieak_project/screen/signup_page.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 
@@ -18,6 +19,8 @@ class _LoginPageState extends State<LoginPage> {
   final _usernamecontroller = TextEditingController();
   final _passwordcontroller = TextEditingController();
   final getlogin = Get.put(LoginManagement());
+  final checkHide = Get.put(HideModelView());
+
   Widget TextFieldCustom(TextEditingController controller) {
     return TextField(
       controller: controller,
@@ -63,18 +66,37 @@ class _LoginPageState extends State<LoginPage> {
               ),
               Padding(
                 padding: const EdgeInsets.all(8.0),
-                child: TextField(
-                  decoration: InputDecoration(
-                      labelStyle: TextStyle(color: Colors.cyanAccent),
-                      enabledBorder: OutlineInputBorder(
-                          borderRadius: BorderRadius.circular(20),
-                          borderSide:
-                              BorderSide(width: 1, color: Colors.cyanAccent)),
-                      labelText: "Mật Khẩu",
-                      errorText: getlogin.textpass.value == 1
-                          ? "Mật Khẩu Không Được Để Trống Và Độ Dài Không Nhỏ Hơn 8!"
-                          : null),
-                  controller: _passwordcontroller,
+                child: Stack(
+                  children: [
+                    TextField(
+                      obscureText: checkHide.hidelogin == 1 ? false : true,
+                      decoration: InputDecoration(
+                          labelStyle: TextStyle(color: Colors.cyanAccent),
+                          enabledBorder: OutlineInputBorder(
+                              borderRadius: BorderRadius.circular(20),
+                              borderSide: BorderSide(
+                                  width: 1, color: Colors.cyanAccent)),
+                          labelText: "Mật Khẩu",
+                          errorText: getlogin.textpass.value == 1
+                              ? "Mật Khẩu Không Được Để Trống Và Độ Dài Không Nhỏ Hơn 8!"
+                              : null),
+                      controller: _passwordcontroller,
+                    ),
+                    Align(
+                      alignment: Alignment.centerRight,
+                      child: Padding(
+                        padding: EdgeInsets.fromLTRB(10, 18, 10, 0),
+                        child: GestureDetector(
+                          onTap: () {
+                            checkHide.updateinlogin();
+                          },
+                          child: Icon(checkHide.hidelogin == 1
+                              ? Icons.remove_red_eye
+                              : Icons.remove_red_eye_outlined),
+                        ),
+                      ),
+                    )
+                  ],
                 ),
               ),
               Padding(
@@ -115,18 +137,15 @@ class _LoginPageState extends State<LoginPage> {
                 ),
               ),
               GestureDetector(
-                onTap: (){
-                  Navigator.push(
-                      context,
-                      MaterialPageRoute(
-                          builder: (context) => SignupPage()));
+                onTap: () {
+                  Navigator.push(context,
+                      MaterialPageRoute(builder: (context) => SignupPage()));
                 },
                 child: Row(
                   mainAxisAlignment: MainAxisAlignment.center,
                   children: [
                     Text("Chưa có tài khoản?"),
                     GestureDetector(
-
                       child: Text(
                         "Đăng ký ngay!",
                         style: TextStyle(
