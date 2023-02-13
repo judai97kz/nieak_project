@@ -23,6 +23,45 @@ class _SignupPageState extends State<SignupPage> {
   final _addresscontroller = TextEditingController();
   final checksignup = Get.put(SignupManagement());
   final checkHide = Get.put(HideModelView());
+
+  void SignUpAction(){
+    checksignup.checkChange(
+        _usernamecontroller.text,
+        _passwordcontroller.text,
+        _repeatcontroller.text,
+        _namecontroller.text,
+        _phonecontroller.text,
+        _addresscontroller.text);
+    checksignup.checkallnull == 1
+        ? ScaffoldMessenger.of(context).showSnackBar(
+        SnackBar(content: Text('Hãy Nhập Đầy Đủ Thông Tin')))
+        : checksignup.checkrepeat == 1
+        ? ScaffoldMessenger.of(context).showSnackBar(SnackBar(
+        content: Text(
+            'Mật Khẩu Và Mật Khẩu Nhập Lại Không Chính Xác!')))
+        : checksignup.textuser == 1
+        ? ScaffoldMessenger.of(context).showSnackBar(
+        SnackBar(
+            content: Text('Hãy Nhập Đúng Định Dạng')))
+        : checksignup.textpass == 1
+        ? ScaffoldMessenger.of(context).showSnackBar(
+        SnackBar(
+            content:
+            Text('Hãy Nhập Đúng Định Dạng')))
+        : checksignup.checkexist == 0
+        ? {
+      ScaffoldMessenger.of(context)
+          .showSnackBar(SnackBar(
+          content: Text(
+              'Đăng Ký Thành Công!'))),
+      Navigator.pop(context)
+    }
+        : ScaffoldMessenger.of(context)
+        .showSnackBar(SnackBar(
+        content: Text(
+            'Tên Đăng Nhập Đã Tồn Tại!')));
+  }
+
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -40,6 +79,7 @@ class _SignupPageState extends State<SignupPage> {
               Padding(
                 padding: const EdgeInsets.all(8.0),
                 child: TextField(
+                  textInputAction: TextInputAction.next,
                   decoration: InputDecoration(
                       labelText: "Tên Đăng Nhập",
                       enabledBorder: OutlineInputBorder(
@@ -57,6 +97,7 @@ class _SignupPageState extends State<SignupPage> {
                   Padding(
                     padding: const EdgeInsets.all(8.0),
                     child: TextField(
+                      textInputAction: TextInputAction.next,
                       obscureText:  checkHide.hidesignup.value == 1?false:true,
                       decoration: InputDecoration(
                           labelText: "Mật Khẩu",
@@ -89,6 +130,7 @@ class _SignupPageState extends State<SignupPage> {
               Padding(
                 padding: const EdgeInsets.all(8.0),
                 child: TextField(
+                  textInputAction: TextInputAction.next,
                   obscureText:  checkHide.hidesignup.value == 1?false:true,
                   decoration: InputDecoration(
                     labelText: "Mật Khẩu Lặp Lại",
@@ -105,6 +147,7 @@ class _SignupPageState extends State<SignupPage> {
               Padding(
                 padding: const EdgeInsets.all(8.0),
                 child: TextField(
+                  textInputAction: TextInputAction.next,
                   decoration: InputDecoration(
                     labelText: "Họ Và Tên",
                       enabledBorder: OutlineInputBorder(
@@ -120,6 +163,7 @@ class _SignupPageState extends State<SignupPage> {
               Padding(
                 padding: const EdgeInsets.all(8.0),
                 child: TextField(
+                  textInputAction: TextInputAction.next,
                   decoration: InputDecoration(
                     labelText: "Số Điện Thoại",
                       enabledBorder: OutlineInputBorder(
@@ -135,7 +179,8 @@ class _SignupPageState extends State<SignupPage> {
               Padding(
                 padding: const EdgeInsets.all(8.0),
                 child: TextField(
-
+                  onSubmitted: (text){SignUpAction();},
+                  textInputAction: TextInputAction.done,
                   decoration: InputDecoration(
                     labelText: "Địa Chỉ",
                       enabledBorder: OutlineInputBorder(
@@ -150,43 +195,9 @@ class _SignupPageState extends State<SignupPage> {
               ),
               ElevatedButton(
                   onPressed: () async {
-                    checksignup.checkChange(
-                        _usernamecontroller.text,
-                        _passwordcontroller.text,
-                        _repeatcontroller.text,
-                        _namecontroller.text,
-                        _phonecontroller.text,
-                        _addresscontroller.text);
-                    checksignup.checkallnull == 1
-                        ? ScaffoldMessenger.of(context).showSnackBar(
-                            SnackBar(content: Text('Hãy Nhập Đầy Đủ Thông Tin')))
-                        : checksignup.checkrepeat == 1
-                            ? ScaffoldMessenger.of(context).showSnackBar(SnackBar(
-                                content: Text(
-                                    'Mật Khẩu Và Mật Khẩu Nhập Lại Không Chính Xác!')))
-                            : checksignup.textuser == 1
-                                ? ScaffoldMessenger.of(context).showSnackBar(
-                                    SnackBar(
-                                        content: Text('Hãy Nhập Đúng Định Dạng')))
-                                : checksignup.textpass == 1
-                                    ? ScaffoldMessenger.of(context).showSnackBar(
-                                        SnackBar(
-                                            content:
-                                                Text('Hãy Nhập Đúng Định Dạng')))
-                                    : checksignup.checkexist == 0
-                                        ? {
-                                            ScaffoldMessenger.of(context)
-                                                .showSnackBar(SnackBar(
-                                                    content: Text(
-                                                        'Đăng Ký Thành Công!'))),
-                                            Navigator.pop(context)
-                                          }
-                                        : ScaffoldMessenger.of(context)
-                                            .showSnackBar(SnackBar(
-                                                content: Text(
-                                                    'Tên Đăng Nhập Đã Tồn Tại!')));
+                   SignUpAction();
                   },
-                  child: Text("ĐĂNG NHẬP")),
+                  child: Text("ĐĂNG KÝ")),
               SizedBox(
                 height: 40,
               )
@@ -197,3 +208,4 @@ class _SignupPageState extends State<SignupPage> {
     );
   }
 }
+

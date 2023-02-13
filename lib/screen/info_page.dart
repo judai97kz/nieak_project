@@ -29,17 +29,38 @@ class _InfoPageState extends State<InfoPage> {
           title: const Text("Thông Tin Sản Phẩm"),
           actions: [
             ElevatedButton(
-                onPressed: () {
-                  addpro.keychange();
-                  addpro.fetchAll();
+              onPressed: () {
+                addpro.keychange();
+                addpro.fetchAll();
 
-                  Navigator.push(
-                      context,
-                      MaterialPageRoute(
-                        builder: (context) => MyCart(),
-                      ));
-                },
-                child: const Icon(Icons.shopping_cart)),
+                Navigator.push(
+                    context,
+                    MaterialPageRoute(
+                      builder: (context) => MyCart(),
+                    ));
+              },
+              child: Stack(
+                children: [
+                  Align(
+                    child: Icon(Icons.shopping_cart),
+                    alignment: Alignment.center,
+                  ),
+                  Align(
+                      alignment: Alignment.centerRight,
+                      child: Obx(() => Padding(
+                            padding: const EdgeInsets.fromLTRB(20, 0, 0, 25),
+                            child: CircleAvatar(
+                              radius: 7,
+                              backgroundColor: Colors.red,
+                              child: Text(
+                                "${addpro.allProduct.length}",
+                                style: TextStyle(fontSize: 10),
+                              ),
+                            ),
+                          ))),
+                ],
+              ),
+            ),
             GestureDetector(
                 onTap: () {
                   Navigator.push(context,
@@ -119,18 +140,22 @@ class _InfoPageState extends State<InfoPage> {
                   ),
                   Stack(
                     children: [
-                      Align(
-                        alignment: Alignment.bottomLeft,
-                        child: Container(
-                          width: double.infinity,
-                          decoration: BoxDecoration(
-                              border: Border.all(color: Colors.black)),
-                        ),
+                      Container(
+                        width: double.infinity,
+                        decoration: BoxDecoration(
+                            border: Border.all(color: Colors.black)),
                       ),
-                      Align(
-                        child:
-                            Container(child: const Text("Thông Tin Sản Phẩm")),
-                        alignment: Alignment.center,
+                      Padding(
+                        padding: const EdgeInsets.all(8.0),
+                        child: Align(
+                          child: Container(
+                              child: const Text(
+                            "Thông Tin Sản Phẩm",
+                            style: TextStyle(
+                                fontWeight: FontWeight.bold, fontSize: 20),
+                          )),
+                          alignment: Alignment.center,
+                        ),
                       )
                     ],
                   ),
@@ -147,6 +172,14 @@ class _InfoPageState extends State<InfoPage> {
                         child: Text(
                             "Kích Thước Giày : ${widget.shoes.minsize} - ${widget.shoes.maxsize}")),
                   ),
+                  Padding(
+                    padding: const EdgeInsets.all(8.0),
+                    child: Align(
+                      alignment: Alignment.centerLeft,
+                      child: Text(
+                          "Tình Trạng: ${widget.shoes.status == 0 ? "Hết Hàng" : "Còn Hàng"}"),
+                    ),
+                  )
                 ],
               ),
             ),

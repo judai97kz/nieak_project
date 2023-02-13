@@ -17,7 +17,7 @@ class UserPage extends StatefulWidget {
 class _UserPageState extends State<UserPage> {
   Widget ButtonAreaEdit(String title, Icon icon, Color colortext) {
     return Container(
-      decoration: BoxDecoration(border: Border.all(color: Colors.black)),
+      decoration: BoxDecoration(border: Border.all(color: Colors.black),color: Colors.white),
       width: double.infinity,
       child: Padding(
         padding: const EdgeInsets.all(8.0),
@@ -42,7 +42,7 @@ class _UserPageState extends State<UserPage> {
     return Container(
         decoration: BoxDecoration(
             color: Colors.white,
-            image: DecorationImage(image: AssetImage("assets/nieaklogo.png"))),
+            image: DecorationImage(image: AssetImage("assets/lobg.jpg"))),
         child: Scaffold(
           appBar: AppBar(
             title: Text("Cài Đặt"),

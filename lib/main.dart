@@ -1,6 +1,7 @@
 import 'package:delayed_display/delayed_display.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
+import 'package:nieak_project/Respositories/add_shoes.dart';
 import 'package:nieak_project/Respositories/user_database.dart';
 import 'package:nieak_project/screen/login_page.dart';
 import 'package:provider/provider.dart';
@@ -21,10 +22,12 @@ class MyApp extends StatefulWidget {
 }
 
 class _MyAppState extends State<MyApp> {
+  final AddShoes allShoes = AddShoes();
   @override
   void initState() {
     // TODO: implement initState
     super.initState();
+    allShoes.addShoes();
     CheckAuto(context);
   }
 

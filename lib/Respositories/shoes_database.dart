@@ -10,7 +10,7 @@ class ShoesDatabaseHelper {
     return openDatabase(join(await getDatabasesPath(), _dbName),
         onCreate: (db, version) async {
       await db.execute(
-          "CREATE TABLE Shoe(idshoes TEXT PRIMARY KEY, nameshoes TEXT NOT NULL, price INTEGER NOT NULL, color TEXT NOT NULL, minsize INTEGER NOT NULL, maxsize INTEGER NOT NULL, brand TEXT NOT NULL, imagenumber INTEGER NOT NULL);");
+          "CREATE TABLE Shoe(idshoes TEXT PRIMARY KEY, nameshoes TEXT NOT NULL, price INTEGER NOT NULL, color TEXT NOT NULL, minsize INTEGER NOT NULL, maxsize INTEGER NOT NULL, brand TEXT NOT NULL, imagenumber INTEGER NOT NULL, status INTEGER NOT NULL);");
     }, version: _version);
   }
 

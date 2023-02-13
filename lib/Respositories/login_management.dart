@@ -1,9 +1,11 @@
 import 'package:flutter/cupertino.dart';
 import 'package:get/get.dart';
 import 'package:nieak_project/Respositories/user_database.dart';
+import 'package:nieak_project/model_view/shoes_modelview.dart';
 import 'package:path/path.dart';
 
 class LoginManagement extends GetxController {
+  final shoesView= Get.put(ShoesModelView());
   var textuser = 0.obs;
   var textpass = 0.obs;
   checkChange(String username, String password, BuildContext context) {
@@ -21,7 +23,9 @@ class LoginManagement extends GetxController {
         username.length >= 8 &&
         password.length >= 8 &&
         password != "") {
+      shoesView.fetchAll("All");
       UserDatabaseHelper.getAllUser(username, password, context);
+
     }
   }
 }

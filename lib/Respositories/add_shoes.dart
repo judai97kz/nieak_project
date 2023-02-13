@@ -13,7 +13,7 @@ class AddShoes {
         minsize: 40,
         maxsize: 45,
         brand: "Nike",
-        imagenumber: 6);
+        imagenumber: 6,status: 1);
     Shoes nike2 = Shoes(
         idshoes: "Nike2",
         nameshoes: "Giày Thể Thao Nike Air Jordan 1 Low SE Spades Màu Trắng Đỏ",
@@ -22,7 +22,7 @@ class AddShoes {
         minsize: 36,
         maxsize: 39,
         brand: "Nike",
-        imagenumber: 5);
+        imagenumber: 5,status: 1);
     Shoes nike3 = Shoes(
         idshoes: "Nike3",
         nameshoes:
@@ -32,7 +32,7 @@ class AddShoes {
         minsize: 40,
         maxsize: 41,
         brand: "Nike",
-        imagenumber: 4);
+        imagenumber: 4,status: 1);
     Shoes nike4 = Shoes(
         idshoes: "Nike4",
         nameshoes:
@@ -42,7 +42,7 @@ class AddShoes {
         minsize: 39,
         maxsize: 45,
         brand: "Nike",
-        imagenumber: 6);
+        imagenumber: 6,status: 1);
     Shoes nike5 = Shoes(
         idshoes: "Nike5",
         nameshoes: "Giày Thể Thao Nike Court Vision Low Next Nature Màu Trắng",
@@ -51,7 +51,7 @@ class AddShoes {
         minsize: 36,
         maxsize: 44,
         brand: "Nike",
-        imagenumber: 6);
+        imagenumber: 6,status: 1);
     Shoes puma1 = Shoes(
         idshoes: "Puma1",
         nameshoes: "Giày Thể Thao Puma Astro Kick Màu Đen",
@@ -60,7 +60,7 @@ class AddShoes {
         minsize: 39,
         maxsize: 43,
         brand: "Puma",
-        imagenumber: 4);
+        imagenumber: 4,status: 1);
     Shoes puma2 = Shoes(
         idshoes: "Puma2",
         nameshoes: "Giày Thể Thao Puma Anzarun Lite Gray 371128 10 Grey",
@@ -69,7 +69,7 @@ class AddShoes {
         minsize: 37,
         maxsize: 41,
         brand: "Puma",
-        imagenumber: 3);
+        imagenumber: 3,status: 1);
     Shoes puma3 = Shoes(
         idshoes: "Puma3",
         nameshoes: "Giày Thể Thao Puma RS-X Core Black Màu Trắng Đen",
@@ -78,7 +78,7 @@ class AddShoes {
         minsize: 36,
         maxsize: 40,
         brand: "Puma",
-        imagenumber: 4);
+        imagenumber: 4,status: 0);
     Shoes puma4 = Shoes(
         idshoes: "Puma4",
         nameshoes: "Giày Thể Thao Puma RS X3 'Unity' 373308-01 Phối Màu",
@@ -87,7 +87,7 @@ class AddShoes {
         minsize: 36,
         maxsize: 40,
         brand: "Puma",
-        imagenumber: 5);
+        imagenumber: 5,status: 1);
     Shoes puma5 = Shoes(
         idshoes: "Puma5",
         nameshoes: "Giày Thể Thao Puma Ignite Flash EvoKNIT Desert (Đen)",
@@ -96,7 +96,7 @@ class AddShoes {
         minsize: 39,
         maxsize: 43,
         brand: "Puma",
-        imagenumber: 5);
+        imagenumber: 5,status: 0);
 
     Shoes adidas1 = Shoes(
         idshoes: "Adidas1",
@@ -106,7 +106,7 @@ class AddShoes {
         minsize: 40,
         maxsize: 42,
         brand: "Adidas",
-        imagenumber: 5);
+        imagenumber: 5,status: 1);
     Shoes adidas2 = Shoes(
         idshoes: "Adidas2",
         nameshoes: "Giày Thể Thao Adidas Alphabounce 1 GZ8991 Màu Đen",
@@ -115,7 +115,7 @@ class AddShoes {
         minsize: 40,
         maxsize: 42,
         brand: "Adidas",
-        imagenumber: 6);
+        imagenumber: 6,status: 0);
     Shoes adidas3 = Shoes(
         idshoes: "Adidas3",
         nameshoes:
@@ -125,7 +125,7 @@ class AddShoes {
         minsize: 36,
         maxsize: 43,
         brand: "Adidas",
-        imagenumber: 6);
+        imagenumber: 6,status: 1);
     Shoes adidas4 = Shoes(
         idshoes: "Adidas4",
         nameshoes:
@@ -135,7 +135,7 @@ class AddShoes {
         minsize: 42,
         maxsize: 43,
         brand: "Adidas",
-        imagenumber: 6);
+        imagenumber: 6,status: 1);
     Shoes adidas5 = Shoes(
         idshoes: "Adidas5",
         nameshoes: "Giày Thể Thao Adidas Nizza Parley Hi Shoes GX6981 Màu Đen",
@@ -144,7 +144,7 @@ class AddShoes {
         minsize: 36,
         maxsize: 48,
         brand: "Adidas",
-        imagenumber: 6);
+        imagenumber: 6,status: 0);
 
     Shoes dior1 = Shoes(
         idshoes: "Dior1",
@@ -155,7 +155,7 @@ class AddShoes {
         minsize: 42,
         maxsize: 45,
         brand: "Dior",
-        imagenumber: 3);
+        imagenumber: 3,status: 1);
     Shoes dior2 = Shoes(
         idshoes: "Dior2",
         nameshoes:
@@ -165,7 +165,7 @@ class AddShoes {
         minsize: 45,
         maxsize: 45,
         brand: "Dior",
-        imagenumber: 4);
+        imagenumber: 4,status: 0);
 
     await ShoesDatabaseHelper.addShoes(nike1);
     await ShoesDatabaseHelper.addShoes(nike2);

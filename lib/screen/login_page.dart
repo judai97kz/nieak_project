@@ -1,12 +1,10 @@
+import 'dart:ui';
+
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:nieak_project/Respositories/login_management.dart';
 import 'package:nieak_project/model_view/hide_modelview.dart';
 import 'package:nieak_project/screen/signup_page.dart';
-import 'package:shared_preferences/shared_preferences.dart';
-
-import '../Respositories/user_database.dart';
-import '../model/user_model.dart';
 
 class LoginPage extends StatefulWidget {
   const LoginPage({Key? key}) : super(key: key);
@@ -35,130 +33,175 @@ class _LoginPageState extends State<LoginPage> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
+      resizeToAvoidBottomInset: false,
       body: Obx(
-        () => SingleChildScrollView(
-          child: Column(
-            mainAxisAlignment: MainAxisAlignment.end,
-            children: [
-              Padding(
-                padding: const EdgeInsets.all(40.0),
-                child: Container(
-                    decoration: BoxDecoration(
-                        borderRadius: BorderRadius.circular(100),
-                        border: Border.all(color: Colors.black)),
-                    child: Image.asset("assets/nieaklogo.png")),
-              ),
-              Padding(
-                padding: const EdgeInsets.all(8.0),
-                child: TextField(
-                  decoration: InputDecoration(
-                      labelText: "Tên Đăng Nhập",
-                      labelStyle: TextStyle(color: Colors.cyanAccent),
-                      enabledBorder: OutlineInputBorder(
-                          borderRadius: BorderRadius.circular(20),
-                          borderSide:
-                              BorderSide(width: 1, color: Colors.cyanAccent)),
-                      errorText: getlogin.textuser.value == 1
-                          ? "Tên Đăng Nhập Không Được Để Trống Và Độ Dài Không Nhỏ Hơn 8!"
-                          : null),
-                  controller: _usernamecontroller,
-                ),
-              ),
-              Padding(
-                padding: const EdgeInsets.all(8.0),
-                child: Stack(
-                  children: [
-                    TextField(
-                      obscureText: checkHide.hidelogin == 1 ? false : true,
-                      decoration: InputDecoration(
-                          labelStyle: TextStyle(color: Colors.cyanAccent),
-                          enabledBorder: OutlineInputBorder(
-                              borderRadius: BorderRadius.circular(20),
-                              borderSide: BorderSide(
-                                  width: 1, color: Colors.cyanAccent)),
-                          labelText: "Mật Khẩu",
-                          errorText: getlogin.textpass.value == 1
-                              ? "Mật Khẩu Không Được Để Trống Và Độ Dài Không Nhỏ Hơn 8!"
-                              : null),
-                      controller: _passwordcontroller,
-                    ),
-                    Align(
-                      alignment: Alignment.centerRight,
-                      child: Padding(
-                        padding: EdgeInsets.fromLTRB(10, 18, 10, 0),
-                        child: GestureDetector(
-                          onTap: () {
-                            checkHide.updateinlogin();
-                          },
-                          child: Icon(checkHide.hidelogin == 1
-                              ? Icons.remove_red_eye
-                              : Icons.remove_red_eye_outlined),
+        () => Container(
+            decoration: BoxDecoration(
+                image: DecorationImage(
+                    image: AssetImage(MediaQuery.of(context).orientation ==
+                            Orientation.portrait
+                        ? "assets/no.jfif"
+                        : "assets/no1.jfif"))),
+            child: BackdropFilter(
+              filter: ImageFilter.blur(sigmaX: 2.5, sigmaY: 2.5),
+              child: Container(
+                decoration:
+                    new BoxDecoration(color: Colors.white.withOpacity(0)),
+                child: SingleChildScrollView(
+                  child: Column(
+                    mainAxisAlignment: MainAxisAlignment.end,
+                    children: [
+                      Padding(
+                        padding: const EdgeInsets.all(40.0),
+                        child: Container(
+                            decoration: BoxDecoration(
+                                borderRadius: BorderRadius.circular(100),
+                                border:
+                                    Border.all(color: Colors.white, width: 10)),
+                            child: Image.asset("assets/logolight.png")),
+                      ),
+                      Padding(
+                        padding: const EdgeInsets.all(8.0),
+                        child: TextField(
+                          textInputAction: TextInputAction.next,
+                          decoration: InputDecoration(
+                              labelText: "Tên Đăng Nhập",
+                              labelStyle: TextStyle(
+                                  color: MediaQuery.of(context).orientation ==
+                                          Orientation.portrait
+                                      ? Colors.white
+                                      : Colors.grey),
+                              enabledBorder: OutlineInputBorder(
+                                  borderRadius: BorderRadius.circular(20),
+                                  borderSide: BorderSide(
+                                      width: 2,
+                                      color:
+                                          MediaQuery.of(context).orientation ==
+                                                  Orientation.portrait
+                                              ? Colors.deepOrange
+                                              : Colors.blueAccent)),
+                              errorText: getlogin.textuser.value == 1
+                                  ? "Tên Đăng Nhập Không Được Để Trống Và Độ Dài Không Nhỏ Hơn 8!"
+                                  : null),
+                          controller: _usernamecontroller,
                         ),
                       ),
-                    )
-                  ],
-                ),
-              ),
-              Padding(
-                padding: const EdgeInsets.all(8.0),
-                child: GestureDetector(
-                    onTap: () {
-                      getlogin.checkChange(_usernamecontroller.text,
-                          _passwordcontroller.text, context);
-                    },
-                    child: Container(
-                      height: 40,
-                      width: double.infinity,
-                      decoration: BoxDecoration(
-                          borderRadius: BorderRadius.circular(20),
-                          boxShadow: [
-                            BoxShadow(
-                              color: Colors.grey.withOpacity(0.5),
-                              spreadRadius: 5,
-                              blurRadius: 7,
-                              offset:
-                                  Offset(0, 3), // changes position of shadow
+                      Padding(
+                        padding: const EdgeInsets.all(8.0),
+                        child: Stack(
+                          children: [
+                            TextField(
+                              onSubmitted: (_passwordcontroller) {
+                                getlogin.checkChange(_usernamecontroller.text,
+                                    _passwordcontroller, context);
+                              },
+                              textInputAction: TextInputAction.done,
+                              obscureText:
+                                  checkHide.hidelogin == 1 ? false : true,
+                              decoration: InputDecoration(
+                                  labelStyle: TextStyle(
+                                      color:
+                                          MediaQuery.of(context).orientation ==
+                                                  Orientation.portrait
+                                              ? Colors.white
+                                              : Colors.grey),
+                                  enabledBorder: OutlineInputBorder(
+                                      borderRadius: BorderRadius.circular(20),
+                                      borderSide: BorderSide(
+                                          width: 1,
+                                          color: MediaQuery.of(context)
+                                                      .orientation ==
+                                                  Orientation.portrait
+                                              ? Colors.deepOrange
+                                              : Colors.blueAccent)),
+                                  labelText: "Mật Khẩu",
+                                  errorText: getlogin.textpass.value == 1
+                                      ? "Mật Khẩu Không Được Để Trống Và Độ Dài Không Nhỏ Hơn 8!"
+                                      : null),
+                              controller: _passwordcontroller,
                             ),
+                            Align(
+                              alignment: Alignment.centerRight,
+                              child: Padding(
+                                padding:
+                                    const EdgeInsets.fromLTRB(10, 18, 10, 0),
+                                child: GestureDetector(
+                                  onTap: () {
+                                    checkHide.updateinlogin();
+                                  },
+                                  child: Icon(checkHide.hidelogin == 1
+                                      ? Icons.remove_red_eye
+                                      : Icons.remove_red_eye_outlined),
+                                ),
+                              ),
+                            )
                           ],
-                          border: Border.all(color: Colors.black)),
-                      child: Center(
-                          child: Text(
-                        "Đăng Nhập",
-                        style: TextStyle(
-                            fontSize: 20,
-                            color: Color.fromARGB(255, 231, 146, 34)),
-                      )),
-                    )),
-              ),
-              Container(
-                height: 40,
-                child: Center(
-                  child: Text("Hoặc"),
-                ),
-              ),
-              GestureDetector(
-                onTap: () {
-                  Navigator.push(context,
-                      MaterialPageRoute(builder: (context) => SignupPage()));
-                },
-                child: Row(
-                  mainAxisAlignment: MainAxisAlignment.center,
-                  children: [
-                    Text("Chưa có tài khoản?"),
-                    GestureDetector(
-                      child: Text(
-                        "Đăng ký ngay!",
-                        style: TextStyle(
-                            decoration: TextDecoration.underline,
-                            color: Colors.blue),
+                        ),
                       ),
-                    )
-                  ],
+                      Padding(
+                        padding: const EdgeInsets.all(8.0),
+                        child: GestureDetector(
+                            onTap: () {
+                              getlogin.checkChange(_usernamecontroller.text,
+                                  _passwordcontroller.text, context);
+                            },
+                            child: Container(
+                              height: 40,
+                              width: double.infinity,
+                              decoration: BoxDecoration(
+                                  borderRadius: BorderRadius.circular(20),
+                                  boxShadow: [
+                                    BoxShadow(
+                                      color: Colors.grey.withOpacity(0.7),
+                                      spreadRadius: 5,
+                                      blurRadius: 7,
+                                      offset: const Offset(
+                                          0, 3), // changes position of shadow
+                                    ),
+                                  ],
+                                  border: Border.all(color: Colors.black)),
+                              child: const Center(
+                                  child: Text(
+                                "Đăng Nhập",
+                                style: TextStyle(
+                                    fontSize: 20,
+                                    color: Color.fromARGB(255, 231, 146, 34)),
+                              )),
+                            )),
+                      ),
+                      Container(
+                        height: 70,
+                        child: const Center(
+                          child: Text("Hoặc",style: TextStyle(color: Colors.white),),
+                        ),
+                      ),
+                      GestureDetector(
+                        onTap: () {
+                          Navigator.push(
+                              context,
+                              MaterialPageRoute(
+                                  builder: (context) => const SignupPage()));
+                        },
+                        child: Row(
+                          mainAxisAlignment: MainAxisAlignment.center,
+                          children: [
+                            const Text("Chưa có tài khoản?"),
+                            GestureDetector(
+                              child: const Text(
+                                "Đăng ký ngay!",
+                                style: TextStyle(
+                                    decoration: TextDecoration.underline,
+                                    color: Colors.blue),
+                              ),
+                            )
+                          ],
+                        ),
+                      )
+                    ],
+                  ),
                 ),
-              )
-            ],
-          ),
-        ),
+              ),
+            )),
       ),
     );
   }
