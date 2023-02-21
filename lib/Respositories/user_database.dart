@@ -3,6 +3,7 @@ import 'package:get/get.dart';
 import 'package:nieak_project/Respositories/bill_database.dart';
 import 'package:nieak_project/Respositories/cart_database.dart';
 import 'package:nieak_project/model_view/key_cart_user.dart';
+import 'package:nieak_project/screen/management_screen.dart';
 import 'package:path/path.dart';
 import 'package:sqflite/sqflite.dart';
 import 'package:shared_preferences/shared_preferences.dart';
@@ -17,7 +18,7 @@ class UserDatabaseHelper {
     return openDatabase(join(await getDatabasesPath(), _dbName),
         onCreate: (db, version) async {
       await db.execute(
-          "CREATE TABLE User(username TEXT PRIMARY KEY, password TEXT NOT NULL, name TEXT NOT NULL, phone TEXT NOT NULL, address TEXT NOT NULL, idcart TEXT NOT NULL);");
+          "CREATE TABLE User(username TEXT PRIMARY KEY, password TEXT NOT NULL, name TEXT NOT NULL, phone TEXT NOT NULL, address TEXT NOT NULL, idcart TEXT NOT NULL, wallet INTEGER NOT NULL, role INTEGER NOT NULL);");
     }, version: _version);
   }
 
@@ -77,7 +78,9 @@ class UserDatabaseHelper {
             name: users[i].name,
             phone: users[i].phone,
             address: users[i].address,
-            idcart: users[i].idcart);
+            idcart: users[i].idcart,
+            wallet: users[i].wallet,
+        role: users[i].role);
         getIdCart.updateID(updateuser);
         CartDatabase.getDB(username);
         BillDatabase.getDB(username);
@@ -85,11 +88,12 @@ class UserDatabaseHelper {
         final prefs = await SharedPreferences.getInstance();
         await prefs.setString('username', username);
         await prefs.setString('password', password);
-        check=0;
+        check = 0;
+        // ignore: use_build_context_synchronously
         Navigator.pushReplacement(
             context,
             MaterialPageRoute(
-                builder: (context) => HomePage(keycart: users[i].idcart)));
+                builder: (context) => Managementpage()));
         break;
       }
       check++;
@@ -97,16 +101,17 @@ class UserDatabaseHelper {
 
     if (check > 0) {
       AlertDialog alert = AlertDialog(
-        title: Text("Thông báo"),
-        content: Text("Tên Đăng Nhập Và Mật Khẩu Không Chính Xác!"),
+        title: const Text("Thông báo"),
+        content: const Text("Tên Đăng Nhập Và Mật Khẩu Không Chính Xác!"),
         actions: [
           ElevatedButton(
               onPressed: () {
                 Navigator.of(context).pop();
               },
-              child: Text("Thoát"))
+              child: const Text("Thoát"))
         ],
       );
+      // ignore: use_build_context_synchronously
       showDialog(context: context, builder: (context) => alert);
       check = 0;
     }

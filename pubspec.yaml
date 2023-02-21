@@ -45,6 +45,7 @@ dependencies:
   anim_search_bar: ^2.0.3
   delayed_display: ^2.0.0
   intl: ^0.18.0
+  fluttertoast: any
 
 dev_dependencies:
   flutter_test:

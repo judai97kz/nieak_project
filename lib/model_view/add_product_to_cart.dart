@@ -1,13 +1,13 @@
 import 'package:get/get.dart';
 import 'package:nieak_project/Respositories/cart_database.dart';
 import 'package:nieak_project/model/cart_model.dart';
-import 'package:nieak_project/model_view/key_cart_user.dart';
 
 class AddProductHelper extends GetxController {
   var allProduct = <CartModel>[].obs;
   var allprice = 0.obs;
   @override
   void onInit() {
+    // ignore: todo
     // TODO: implement onInit
     super.onInit();
     fetchAll();
@@ -19,24 +19,28 @@ class AddProductHelper extends GetxController {
   }
 
   fetchAll() async {
-    var shoes = await CartDatabase.getAllShoes();
+    var shoes = await CartDatabase.getCart();
     allProduct.value = shoes!;
     payProduct();
   }
 
   addShoes(CartModel value) {
-    CartDatabase.addShoes(value);
+    CartDatabase.addCart(value);
     fetchAll();
   }
 
   deleteProduct(CartModel value) {
-    CartDatabase.deleteShoes(value);
+    CartDatabase.deleteCart(value);
+    fetchAll();
+  }
+
+  updateProduct(CartModel value) async {
+    await CartDatabase.updateCart(value);
     fetchAll();
   }
 
   payProduct() {
-    print("legth ${allProduct.length}");
-    if (allProduct.length == 0) {
+    if (allProduct.isEmpty) {
       allprice.value = 0;
     } else {
       allprice.value = 0;

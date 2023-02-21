@@ -23,7 +23,7 @@ class _InfoPageState extends State<InfoPage> {
   NumberFormat myFormat = NumberFormat.decimalPattern('en_us');
   @override
   Widget build(BuildContext context) {
-    int _size = widget.shoes.minsize;
+    int size = widget.shoes.minsize;
     return Scaffold(
         appBar: AppBar(
           title: const Text("Thông Tin Sản Phẩm"),
@@ -36,14 +36,14 @@ class _InfoPageState extends State<InfoPage> {
                 Navigator.push(
                     context,
                     MaterialPageRoute(
-                      builder: (context) => MyCart(),
+                      builder: (context) => const MyCart(),
                     ));
               },
               child: Stack(
                 children: [
-                  Align(
-                    child: Icon(Icons.shopping_cart),
+                  const Align(
                     alignment: Alignment.center,
+                    child: Icon(Icons.shopping_cart),
                   ),
                   Align(
                       alignment: Alignment.centerRight,
@@ -54,7 +54,7 @@ class _InfoPageState extends State<InfoPage> {
                               backgroundColor: Colors.red,
                               child: Text(
                                 "${addpro.allProduct.length}",
-                                style: TextStyle(fontSize: 10),
+                                style: const TextStyle(fontSize: 10),
                               ),
                             ),
                           ))),
@@ -64,10 +64,10 @@ class _InfoPageState extends State<InfoPage> {
             GestureDetector(
                 onTap: () {
                   Navigator.push(context,
-                      MaterialPageRoute(builder: (context) => UserPage()));
+                      MaterialPageRoute(builder: (context) => const UserPage()));
                 },
                 child: const Padding(
-                  padding: const EdgeInsets.all(8.0),
+                  padding: EdgeInsets.all(8.0),
                   child: CircleAvatar(
                     backgroundImage: AssetImage(
                       "assets/Nike/Nike1/1.jpg",
@@ -101,7 +101,7 @@ class _InfoPageState extends State<InfoPage> {
                                   Stack(
                                     children: [
                                       Image.asset(
-                                        "assets/${widget.shoes.brand}/${widget.shoes.idshoes}/${i}.jpg",
+                                        "assets/${widget.shoes.brand}/${widget.shoes.idshoes}/$i.jpg",
                                         height: 500,
                                         width: 500,
                                       ),
@@ -110,7 +110,7 @@ class _InfoPageState extends State<InfoPage> {
                                           child: Container(
                                             color: Colors.white10,
                                             child: Text(
-                                                "${i}/${widget.shoes.imagenumber}"),
+                                                "$i/${widget.shoes.imagenumber}"),
                                           ))
                                     ],
                                   )
@@ -124,7 +124,7 @@ class _InfoPageState extends State<InfoPage> {
                     child: Text(
                       widget.shoes.nameshoes,
                       style:
-                          TextStyle(fontSize: 20, fontWeight: FontWeight.bold),
+                          const TextStyle(fontSize: 20, fontWeight: FontWeight.bold),
                     ),
                   ),
                   Align(
@@ -148,13 +148,14 @@ class _InfoPageState extends State<InfoPage> {
                       Padding(
                         padding: const EdgeInsets.all(8.0),
                         child: Align(
+                          alignment: Alignment.center,
+                          // ignore: avoid_unnecessary_containers
                           child: Container(
                               child: const Text(
                             "Thông Tin Sản Phẩm",
                             style: TextStyle(
                                 fontWeight: FontWeight.bold, fontSize: 20),
                           )),
-                          alignment: Alignment.center,
                         ),
                       )
                     ],
@@ -185,164 +186,171 @@ class _InfoPageState extends State<InfoPage> {
             ),
             Align(
               alignment: Alignment.bottomCenter,
-              child: Container(
-                child: Row(
-                  mainAxisAlignment: MainAxisAlignment.end,
-                  children: [
-                    Padding(
-                      padding: const EdgeInsets.all(8.0),
-                      child: ElevatedButton(
-                          onPressed: () {
-                            cartadd.size.value = widget.shoes.minsize;
-                            cartadd.amout.value = 1;
-                            showModalBottomSheet(
-                                context: context,
-                                builder: (builder) {
-                                  return Obx(
-                                    () => Padding(
-                                      padding: const EdgeInsets.all(8.0),
-                                      child: SingleChildScrollView(
-                                        child: Column(
-                                          children: [
-                                            Padding(
-                                              padding:
-                                                  const EdgeInsets.all(8.0),
-                                              child: Align(
-                                                  alignment:
-                                                      Alignment.centerLeft,
-                                                  child: Text(
-                                                      "Size:${cartadd.size}")),
-                                            ),
-                                            Container(
-                                              height: 40,
-                                              width: double.infinity,
-                                              child: ListView.builder(
-                                                  scrollDirection:
-                                                      Axis.horizontal,
-                                                  shrinkWrap: true,
-                                                  itemCount:
-                                                      widget.shoes.maxsize +
-                                                          1 -
-                                                          widget.shoes.minsize,
-                                                  itemBuilder:
-                                                      (context, index) {
-                                                    return Padding(
-                                                      padding:
-                                                          const EdgeInsets.all(
-                                                              1.0),
-                                                      child: ElevatedButton(
-                                                        onPressed: () {
-                                                          _size = index +
-                                                              widget.shoes
-                                                                  .minsize;
-                                                          cartadd.selectSize(
-                                                              _size);
-                                                        },
-                                                        child: Text(
-                                                          "${index + widget.shoes.minsize}",
-                                                          style: TextStyle(
-                                                              color:
-                                                                  Colors.black),
+              child: Row(
+                mainAxisAlignment: MainAxisAlignment.end,
+                children: [
+                  Padding(
+                    padding: const EdgeInsets.all(8.0),
+                    child: widget.shoes.status == 0
+                        ? const ElevatedButton(
+                            onPressed: null,
+                            child: Text("Không thể đặt hàng!"))
+                        : ElevatedButton(
+                            onPressed: () {
+                              cartadd.size.value = widget.shoes.minsize;
+                              cartadd.amout.value = 1;
+                              showModalBottomSheet(
+                                  context: context,
+                                  builder: (builder) {
+                                    return Obx(
+                                      () => Padding(
+                                        padding: const EdgeInsets.all(8.0),
+                                        child: SingleChildScrollView(
+                                          child: Column(
+                                            children: [
+                                              Padding(
+                                                padding:
+                                                    const EdgeInsets.all(8.0),
+                                                child: Align(
+                                                    alignment:
+                                                        Alignment.centerLeft,
+                                                    child: Text(
+                                                        "Size:${cartadd.size}")),
+                                              ),
+                                              SizedBox(
+                                                height: 40,
+                                                width: double.infinity,
+                                                child: ListView.builder(
+                                                    scrollDirection:
+                                                        Axis.horizontal,
+                                                    shrinkWrap: true,
+                                                    itemCount: widget
+                                                            .shoes.maxsize +
+                                                        1 -
+                                                        widget.shoes.minsize,
+                                                    itemBuilder:
+                                                        (context, index) {
+                                                      return Padding(
+                                                        padding:
+                                                            const EdgeInsets
+                                                                .all(1.0),
+                                                        child: ElevatedButton(
+                                                          onPressed: () {
+                                                            size = index +
+                                                                widget.shoes
+                                                                    .minsize;
+                                                            cartadd
+                                                                .selectSize(
+                                                                    size);
+                                                          },
+                                                          // ignore: sort_child_properties_last
+                                                          child: Text(
+                                                            "${index + widget.shoes.minsize}",
+                                                            style: const TextStyle(
+                                                                color: Colors
+                                                                    .black),
+                                                          ),
+                                                          style: ButtonStyle(
+                                                              backgroundColor: index ==
+                                                                      cartadd.size.value -
+                                                                          widget
+                                                                              .shoes.minsize
+                                                                  ? const MaterialStatePropertyAll<
+                                                                          Color>(
+                                                                      Colors
+                                                                          .blue)
+                                                                  : const MaterialStatePropertyAll<
+                                                                          Color>(
+                                                                      Colors
+                                                                          .white)),
                                                         ),
-                                                        style: ButtonStyle(
-                                                            backgroundColor: index ==
-                                                                    cartadd.size
-                                                                            .value -
-                                                                        widget
-                                                                            .shoes
-                                                                            .minsize
-                                                                ? MaterialStatePropertyAll<
-                                                                        Color>(
-                                                                    Colors.blue)
-                                                                : MaterialStatePropertyAll<
-                                                                        Color>(
-                                                                    Colors
-                                                                        .white)),
-                                                      ),
-                                                    );
-                                                  }),
-                                            ),
-                                            Padding(
-                                              padding:
-                                                  const EdgeInsets.all(8.0),
-                                              child: Align(
-                                                  alignment:
-                                                      Alignment.centerLeft,
-                                                  child: Text("Số lượng")),
-                                            ),
-                                            Row(
-                                              children: [
-                                                ElevatedButton(
-                                                    onPressed: () {
-                                                      cartadd.disAmout();
-                                                    },
-                                                    child: Text("-")),
-                                                Padding(
-                                                  padding:
-                                                      const EdgeInsets.all(1.5),
-                                                  child: Container(
-                                                    width: 50,
-                                                    height: 35,
-                                                    decoration: BoxDecoration(
-                                                        border: Border.all(
-                                                            color:
-                                                                Colors.black)),
-                                                    child: Center(
-                                                      child: Text(
-                                                        cartadd.amout
-                                                            .toString(),
-                                                        textAlign:
-                                                            TextAlign.center,
+                                                      );
+                                                    }),
+                                              ),
+                                              const Padding(
+                                                padding:
+                                                    EdgeInsets.all(8.0),
+                                                child: Align(
+                                                    alignment:
+                                                        Alignment.centerLeft,
+                                                    child: Text("Số lượng")),
+                                              ),
+                                              Row(
+                                                children: [
+                                                  ElevatedButton(
+                                                      onPressed: () {
+                                                        cartadd.disAmout();
+                                                      },
+                                                      child: const Text("-")),
+                                                  Padding(
+                                                    padding:
+                                                        const EdgeInsets.all(
+                                                            1.5),
+                                                    child: Container(
+                                                      width: 50,
+                                                      height: 35,
+                                                      decoration: BoxDecoration(
+                                                          border: Border.all(
+                                                              color: Colors
+                                                                  .black)),
+                                                      child: Center(
+                                                        child: Text(
+                                                          cartadd.amout
+                                                              .toString(),
+                                                          textAlign: TextAlign
+                                                              .center,
+                                                        ),
                                                       ),
                                                     ),
                                                   ),
-                                                ),
-                                                ElevatedButton(
-                                                    onPressed: () {
-                                                      cartadd.addAmout();
-                                                    },
-                                                    child: Text("+"))
-                                              ],
-                                            ),
-                                            Align(
-                                              child: ElevatedButton(
-                                                onPressed: () {
-                                                  CartModel model = CartModel(
-                                                      idproduct:
-                                                          widget.shoes.idshoes +
-                                                              cartadd.size.value
-                                                                  .toString(),
-                                                      nameproduct: widget
-                                                          .shoes.nameshoes,
-                                                      priceproduct:
-                                                          widget.shoes.price,
-                                                      amoutproduct:
-                                                          cartadd.amout.value,
-                                                      sizeproduct:
-                                                          cartadd.size.value,
-                                                      brand:
-                                                          widget.shoes.brand);
-                                                  addpro.addShoes(model);
-                                                  Navigator.of(context).pop();
-                                                  ScaffoldMessenger.of(context)
-                                                      .showSnackBar(SnackBar(
-                                                          content: Text(
-                                                              'Thêm Sản Phẩm Thành Công!')));
-                                                },
-                                                child: Text("Thêm"),
+                                                  ElevatedButton(
+                                                      onPressed: () {
+                                                        cartadd.addAmout();
+                                                      },
+                                                      child: const Text("+"))
+                                                ],
                                               ),
-                                            )
-                                          ],
+                                              Align(
+                                                child: ElevatedButton(
+                                                  onPressed: () {
+                                                    CartModel model = CartModel(
+                                                        idproduct: widget
+                                                                .shoes
+                                                                .idshoes +
+                                                            cartadd.size.value
+                                                                .toString(),
+                                                        nameproduct: widget
+                                                            .shoes.nameshoes,
+                                                        priceproduct: widget
+                                                            .shoes.price,
+                                                        amoutproduct: cartadd
+                                                            .amout.value,
+                                                        sizeproduct: cartadd
+                                                            .size.value,
+                                                        brand: widget
+                                                            .shoes.brand);
+                                                    addpro.addShoes(model);
+                                                    Navigator.of(context)
+                                                        .pop();
+                                                    ScaffoldMessenger.of(
+                                                            context)
+                                                        .showSnackBar(const SnackBar(
+                                                            content: Text(
+                                                                'Thêm Sản Phẩm Thành Công!')));
+                                                  },
+                                                  child: const Text("Thêm"),
+                                                ),
+                                              )
+                                            ],
+                                          ),
                                         ),
                                       ),
-                                    ),
-                                  );
-                                });
-                          },
-                          child: Icon(Icons.add_shopping_cart)),
-                    )
-                  ],
-                ),
+                                    );
+                                  });
+                            },
+                            child: const Icon(Icons.add_shopping_cart)),
+                  )
+                ],
               ),
             )
           ],

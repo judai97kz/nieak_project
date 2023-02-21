@@ -4,7 +4,7 @@ import 'package:nieak_project/Respositories/signup_management.dart';
 import 'package:nieak_project/model/user_model.dart';
 import 'package:nieak_project/model_view/hide_modelview.dart';
 
-import '../Respositories/user_database.dart';
+
 
 class SignupPage extends StatefulWidget {
   final User? user;
@@ -24,6 +24,7 @@ class _SignupPageState extends State<SignupPage> {
   final checksignup = Get.put(SignupManagement());
   final checkHide = Get.put(HideModelView());
 
+  // ignore: non_constant_identifier_names
   void SignUpAction(){
     checksignup.checkChange(
         _usernamecontroller.text,
@@ -32,33 +33,40 @@ class _SignupPageState extends State<SignupPage> {
         _namecontroller.text,
         _phonecontroller.text,
         _addresscontroller.text);
+    // ignore: unrelated_type_equality_checks
     checksignup.checkallnull == 1
         ? ScaffoldMessenger.of(context).showSnackBar(
-        SnackBar(content: Text('Hãy Nhập Đầy Đủ Thông Tin')))
+        const SnackBar(content: Text('Hãy Nhập Đầy Đủ Thông Tin')))
+        // ignore: unrelated_type_equality_checks
         : checksignup.checkrepeat == 1
+        // ignore: prefer_const_constructors
         ? ScaffoldMessenger.of(context).showSnackBar(SnackBar(
-        content: Text(
+        content: const Text(
             'Mật Khẩu Và Mật Khẩu Nhập Lại Không Chính Xác!')))
+        // ignore: unrelated_type_equality_checks
         : checksignup.textuser == 1
         ? ScaffoldMessenger.of(context).showSnackBar(
-        SnackBar(
+        const SnackBar(
             content: Text('Hãy Nhập Đúng Định Dạng')))
+        // ignore: unrelated_type_equality_checks
         : checksignup.textpass == 1
         ? ScaffoldMessenger.of(context).showSnackBar(
-        SnackBar(
+        const SnackBar(
             content:
             Text('Hãy Nhập Đúng Định Dạng')))
+        // ignore: unrelated_type_equality_checks
         : checksignup.checkexist == 0
         ? {
       ScaffoldMessenger.of(context)
-          .showSnackBar(SnackBar(
+          .showSnackBar(const SnackBar(
           content: Text(
               'Đăng Ký Thành Công!'))),
       Navigator.pop(context)
     }
         : ScaffoldMessenger.of(context)
+        // ignore: prefer_const_constructors
         .showSnackBar(SnackBar(
-        content: Text(
+        content: const Text(
             'Tên Đăng Nhập Đã Tồn Tại!')));
   }
 
@@ -66,6 +74,7 @@ class _SignupPageState extends State<SignupPage> {
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
+        // ignore: prefer_const_constructors
         leading: BackButton(
           color: Colors.black,
         ),
@@ -85,7 +94,8 @@ class _SignupPageState extends State<SignupPage> {
                       enabledBorder: OutlineInputBorder(
                           borderRadius: BorderRadius.circular(20),
                           borderSide:
-                              BorderSide(width: 1, color: Colors.cyanAccent)),
+                              const BorderSide(width: 1, color: Colors.cyanAccent)),
+                      // ignore: unrelated_type_equality_checks
                       errorText: checksignup.textuser == 1
                           ? "Tên Đăng Nhập Không Được Để Trống Và Độ Dài Không Nhỏ Hơn 8!"
                           : null),
@@ -104,7 +114,8 @@ class _SignupPageState extends State<SignupPage> {
                           enabledBorder: OutlineInputBorder(
                               borderRadius: BorderRadius.circular(20),
                               borderSide:
-                              BorderSide(width: 1, color: Colors.cyanAccent)),
+                              const BorderSide(width: 1, color: Colors.cyanAccent)),
+                          // ignore: unrelated_type_equality_checks
                           errorText: checksignup.textpass == 1
                               ? "Mật Khẩu Không Được Để Trống Và Độ Dài Không Nhỏ Hơn 8!"
                               : null),
@@ -114,7 +125,7 @@ class _SignupPageState extends State<SignupPage> {
                   Align(
                     alignment: Alignment.centerRight,
                     child: Padding(
-                      padding: EdgeInsets.fromLTRB(10, 25, 20, 0),
+                      padding: const EdgeInsets.fromLTRB(10, 25, 20, 0),
                       child: GestureDetector(
                         onTap: () {
                           checkHide.updateinsignup();
@@ -137,7 +148,8 @@ class _SignupPageState extends State<SignupPage> {
                       enabledBorder: OutlineInputBorder(
                           borderRadius: BorderRadius.circular(20),
                           borderSide:
-                              BorderSide(width: 1, color: Colors.cyanAccent)),
+                              const BorderSide(width: 1, color: Colors.cyanAccent)),
+                      // ignore: unrelated_type_equality_checks
                       errorText: checksignup.textrepeat == 1
                           ? "Hãy Nhập Mật Khẩu Lặp Lại!"
                           : null),
@@ -153,7 +165,8 @@ class _SignupPageState extends State<SignupPage> {
                       enabledBorder: OutlineInputBorder(
                           borderRadius: BorderRadius.circular(20),
                           borderSide:
-                              BorderSide(width: 1, color: Colors.cyanAccent)),
+                              const BorderSide(width: 1, color: Colors.cyanAccent)),
+                      // ignore: unrelated_type_equality_checks
                       errorText: checksignup.textname == 1
                           ? "Tên Không Được Để Trống!"
                           : null),
@@ -169,7 +182,8 @@ class _SignupPageState extends State<SignupPage> {
                       enabledBorder: OutlineInputBorder(
                           borderRadius: BorderRadius.circular(20),
                           borderSide:
-                              BorderSide(width: 1, color: Colors.cyanAccent)),
+                              const BorderSide(width: 1, color: Colors.cyanAccent)),
+                      // ignore: unrelated_type_equality_checks
                       errorText: checksignup.textname == 1
                           ? "Điện Thoại Không Được Để Trống!"
                           : null),
@@ -186,7 +200,8 @@ class _SignupPageState extends State<SignupPage> {
                       enabledBorder: OutlineInputBorder(
                           borderRadius: BorderRadius.circular(20),
                           borderSide:
-                              BorderSide(width: 1, color: Colors.cyanAccent)),
+                              const BorderSide(width: 1, color: Colors.cyanAccent)),
+                      // ignore: unrelated_type_equality_checks
                       errorText: checksignup.textname == 1
                           ? "Địa Chỉ Không Được Để Trống!"
                           : null),
@@ -197,7 +212,8 @@ class _SignupPageState extends State<SignupPage> {
                   onPressed: () async {
                    SignUpAction();
                   },
-                  child: Text("ĐĂNG KÝ")),
+                  child: const Text("ĐĂNG KÝ")),
+              // ignore: prefer_const_constructors
               SizedBox(
                 height: 40,
               )

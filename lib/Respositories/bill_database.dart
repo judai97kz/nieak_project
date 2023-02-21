@@ -8,10 +8,8 @@ import '../model_view/key_cart_user.dart';
 class BillDatabase {
   static final idcartkey = Get.put(Userid());
   static const int _version = 1;
-
-  static Future<Database> getDB(var _dbName) async {
-    print(_dbName);
-    return openDatabase(join(await getDatabasesPath(), "${_dbName}bill.id"),
+  static Future<Database> getDB(var dbName) async {
+    return openDatabase(join(await getDatabasesPath(), "${dbName}bill.id"),
         onCreate: (db, version) async {
       await db.execute(
           "CREATE TABLE bill(idbill TEXT PRIMARY KEY, billtime TEXT NOT NULL, contentbill TEXT NOT NULL, pricebill INTEGER NOT NULL);");

@@ -1,5 +1,4 @@
 import 'package:flutter/material.dart';
-
 import 'package:get/get.dart';
 import 'package:intl/intl.dart';
 import 'package:nieak_project/model/cart_model.dart';
@@ -14,7 +13,7 @@ class ProductWidget extends StatefulWidget {
 
 class _ProductWidgetState extends State<ProductWidget> {
   NumberFormat myFormat = NumberFormat.decimalPattern('en_us');
-
+  final updateCart = Get.put(AddProductHelper());
   @override
   Widget build(BuildContext context) {
     String editid = widget.model!.idproduct
@@ -44,7 +43,7 @@ class _ProductWidgetState extends State<ProductWidget> {
                         decoration: BoxDecoration(
                             border: Border.all(color: Colors.black)),
                         child: Image.asset(
-                          "assets/${widget.model?.brand}/${editid}/1.jpg",
+                          "assets/${widget.model?.brand}/$editid/1.jpg",
                           height: 80,
                           width: 80,
                         ),
@@ -53,22 +52,106 @@ class _ProductWidgetState extends State<ProductWidget> {
                         padding: const EdgeInsets.all(2.0),
                         child: Column(
                           children: [
-                            SizedBox(
-                              width: 150,
-                              child: Text(
-                                "Size: ${widget.model?.sizeproduct}",
-                                textAlign: TextAlign.left,
+                            Padding(
+                              padding: const EdgeInsets.all(4.0),
+                              child: SizedBox(
+                                width: 150,
+                                child: Text(
+                                  "Size: ${widget.model?.sizeproduct}",
+                                  textAlign: TextAlign.left,
+                                ),
                               ),
                             ),
-                            SizedBox(
-                              width: 150,
-                              child: Text(
-                                  "Đơn Giá:  ${myFormat.format(widget.model?.priceproduct)}"),
+                            Padding(
+                              padding: const EdgeInsets.all(4.0),
+                              child: SizedBox(
+                                width: 150,
+                                child: Text(
+                                    "Đơn Giá:  ${myFormat.format(widget.model!.priceproduct)}"),
+                              ),
                             ),
-                            SizedBox(
-                              width: 150,
-                              child: Text(
-                                  "Số Lượng: ${widget.model?.amoutproduct}"),
+                            Padding(
+                              padding: const EdgeInsets.all(2.0),
+                              child: SizedBox(
+                                  width: 150,
+                                  child: Row(
+                                    children: [
+                                      const Text("Số Lượng: "),
+                                      GestureDetector(
+                                        onTap: widget.model!.amoutproduct == 1
+                                            ? null
+                                            : () {
+                                                setState(() {
+                                                  CartModel model = CartModel(
+                                                      idproduct: widget
+                                                          .model!.idproduct,
+                                                      nameproduct: widget
+                                                          .model!.nameproduct,
+                                                      priceproduct: widget
+                                                          .model!.priceproduct,
+                                                      amoutproduct: widget
+                                                              .model!
+                                                              .amoutproduct -
+                                                          1,
+                                                      sizeproduct: widget
+                                                          .model!.sizeproduct,
+                                                      brand:
+                                                          widget.model!.brand);
+                                                  updateCart
+                                                      .updateProduct(model);
+                                                });
+                                              },
+                                        child: Container(
+                                          decoration: BoxDecoration(
+                                              borderRadius:
+                                                  BorderRadius.circular(5),
+                                              border: Border.all(
+                                                  color: Colors.black),
+                                              color: Colors.blue),
+                                          height: 20,
+                                          width: 20,
+                                          child: const Center(child: Text("-")),
+                                        ),
+                                      ),
+                                      SizedBox(
+                                        width: 40,
+                                        child: Center(
+                                            child: Text(
+                                                "${widget.model!.amoutproduct}")),
+                                      ),
+                                      GestureDetector(
+                                        onTap: () {
+                                          setState(() {
+                                            CartModel model = CartModel(
+                                                idproduct:
+                                                    widget.model!.idproduct,
+                                                nameproduct:
+                                                    widget.model!.nameproduct,
+                                                priceproduct:
+                                                    widget.model!.priceproduct,
+                                                amoutproduct:
+                                                    widget.model!.amoutproduct +
+                                                        1,
+                                                sizeproduct:
+                                                    widget.model!.sizeproduct,
+                                                brand: widget.model!.brand);
+                                            updateCart.updateProduct(model);
+                                          });
+                                        },
+                                        child: Container(
+                                          decoration: BoxDecoration(
+                                              borderRadius:
+                                                  BorderRadius.circular(5),
+                                              border: Border.all(
+                                                  color: Colors.black),
+                                              color: Colors.blue),
+                                          height: 20,
+                                          width: 20,
+                                          child: const Center(child: Text("+")),
+                                        ),
+                                      ),
+                                    ],
+                                  )),
                             ),
                           ],
                         ),
@@ -76,11 +159,12 @@ class _ProductWidgetState extends State<ProductWidget> {
                     ],
                   ),
                   Align(
+                    alignment: Alignment.centerRight,
                     child: GestureDetector(
                         onTap: () {
                           AlertDialog alert = AlertDialog(
-                            title: Text("Thông báo"),
-                            content: Text(
+                            title: const Text("Thông báo"),
+                            content: const Text(
                                 "Bạn có muốn xóa sản phẩm này ra khỏi giỏ hàng?"),
                             actions: [
                               ElevatedButton(
@@ -93,21 +177,20 @@ class _ProductWidgetState extends State<ProductWidget> {
                                     deletemodel.allprice.value = 0;
                                     deletemodel.fetchAll();
                                   },
-                                  child: Text("Đồng Ý")),
-                              SizedBox(),
+                                  child: const Text("Đồng Ý")),
+                              const SizedBox(),
                               ElevatedButton(
                                   onPressed: () {
                                     Navigator.of(context).pop();
                                   },
-                                  child: Text("Hủy"))
+                                  child: const Text("Hủy"))
                             ],
                           );
 
                           showDialog(
                               context: context, builder: (context) => alert);
                         },
-                        child: Icon(Icons.remove_shopping_cart)),
-                    alignment: Alignment.centerRight,
+                        child: const Icon(Icons.remove_shopping_cart)),
                   )
                 ],
               )),

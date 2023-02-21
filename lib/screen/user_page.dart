@@ -1,6 +1,4 @@
 import 'package:flutter/material.dart';
-import 'package:flutter/src/widgets/container.dart';
-import 'package:flutter/src/widgets/framework.dart';
 import 'package:nieak_project/screen/bill_screen.dart';
 import 'package:nieak_project/screen/infoapp_page.dart';
 import 'package:nieak_project/screen/login_page.dart';
@@ -15,6 +13,7 @@ class UserPage extends StatefulWidget {
 }
 
 class _UserPageState extends State<UserPage> {
+  // ignore: non_constant_identifier_names
   Widget ButtonAreaEdit(String title, Icon icon, Color colortext) {
     return Container(
       decoration: BoxDecoration(border: Border.all(color: Colors.black),color: Colors.white),
@@ -40,12 +39,12 @@ class _UserPageState extends State<UserPage> {
   @override
   Widget build(BuildContext context) {
     return Container(
-        decoration: BoxDecoration(
+        decoration: const BoxDecoration(
             color: Colors.white,
             image: DecorationImage(image: AssetImage("assets/lobg.jpg"))),
         child: Scaffold(
           appBar: AppBar(
-            title: Text("Cài Đặt"),
+            title: const Text("Cài Đặt"),
           ),
           backgroundColor: Colors.transparent,
           body: Center(
@@ -53,37 +52,38 @@ class _UserPageState extends State<UserPage> {
               GestureDetector(
                 onTap: () {
                   Navigator.push(context,
-                      MaterialPageRoute(builder: (context) => UserInfoPage()));
+                      MaterialPageRoute(builder: (context) => const UserInfoPage()));
                 },
                 child: ButtonAreaEdit(
-                    "Thông Tin Cá Nhân", Icon(Icons.person), Colors.cyanAccent),
+                    "Thông Tin Cá Nhân", const Icon(Icons.person), Colors.cyanAccent),
               ),
               GestureDetector(
                 onTap: () {
                   Navigator.push(context,
-                      MaterialPageRoute(builder: (context) => MyBill()));
+                      MaterialPageRoute(builder: (context) => const MyBill()));
                 },
                 child: ButtonAreaEdit("Lịch Sử Mua Hàng",
-                    Icon(Icons.shopping_basket), Colors.red),
+                    const Icon(Icons.shopping_basket), Colors.red),
               ),
               GestureDetector(
                 onTap: () {
                   Navigator.push(context,
-                      MaterialPageRoute(builder: (context) => InfoAppPage()));
+                      MaterialPageRoute(builder: (context) => const InfoAppPage()));
                 },
                 child: ButtonAreaEdit(
-                    "Thông Tin Liên Hệ", Icon(Icons.call), Colors.green),
+                    "Thông Tin Liên Hệ", const Icon(Icons.call), Colors.green),
               ),
               ElevatedButton(
                   onPressed: () async {
                     final prefs = await SharedPreferences.getInstance();
                     await prefs.remove('username');
                     await prefs.remove('password');
+                    // ignore: use_build_context_synchronously
                     Navigator.of(context).pushAndRemoveUntil(
-                        MaterialPageRoute(builder: (context) => LoginPage()),
+                        MaterialPageRoute(builder: (context) => const LoginPage()),
                         (Route<dynamic> route) => false);
                   },
-                  child: Text("Log out"))
+                  child: const Text("Log out"))
             ]),
           ),
         ));

@@ -10,19 +10,19 @@ class ShoesDatabaseHelper {
     return openDatabase(join(await getDatabasesPath(), _dbName),
         onCreate: (db, version) async {
       await db.execute(
-          "CREATE TABLE Shoe(idshoes TEXT PRIMARY KEY, nameshoes TEXT NOT NULL, price INTEGER NOT NULL, color TEXT NOT NULL, minsize INTEGER NOT NULL, maxsize INTEGER NOT NULL, brand TEXT NOT NULL, imagenumber INTEGER NOT NULL, status INTEGER NOT NULL);");
+          "CREATE TABLE Shoes(idshoes TEXT PRIMARY KEY, nameshoes TEXT NOT NULL, price INTEGER NOT NULL, color TEXT NOT NULL, minsize INTEGER NOT NULL, maxsize INTEGER NOT NULL, brand TEXT NOT NULL, imagenumber INTEGER NOT NULL, status INTEGER NOT NULL);");
     }, version: _version);
   }
 
   static Future<int> addShoes(Shoes shoes) async {
     final db = await _getDB();
-    return await db.insert("Shoe", shoes.toJson(),
+    return await db.insert("Shoes", shoes.toJson(),
         conflictAlgorithm: ConflictAlgorithm.replace);
   }
 
   static Future<int> updateShoes(Shoes shoes) async {
     final db = await _getDB();
-    return await db.update("Shoe", shoes.toJson(),
+    return await db.update("Shoes", shoes.toJson(),
         where: 'idshoes = ?',
         whereArgs: [shoes.idshoes],
         conflictAlgorithm: ConflictAlgorithm.replace);
@@ -31,14 +31,14 @@ class ShoesDatabaseHelper {
   static Future<int> deleteShoes(Shoes shoes) async {
     final db = await _getDB();
     return await db
-        .delete("Shoe", where: 'idshoes = ?', whereArgs: [shoes.idshoes]);
+        .delete("Shoes", where: 'idshoes = ?', whereArgs: [shoes.idshoes]);
   }
 
   static Future<List<Shoes>?> getAllShoes(String brand) async {
     final db = await _getDB();
     final List<Map<String, dynamic>> maps = brand == 'All'
-        ? await db.query("Shoe")
-        : await db.query("Shoe", where: 'brand = ?', whereArgs: [brand]);
+        ? await db.query("Shoes")
+        : await db.query("Shoes", where: 'brand = ?', whereArgs: [brand]);
     if (maps.isEmpty) {
       return null;
     }
@@ -48,7 +48,7 @@ class ShoesDatabaseHelper {
   static Future<List<Shoes>?> findShoes(String name) async {
     final db = await _getDB();
     final List<Map<String, dynamic>> maps = await db
-        .query("Shoe", where: 'nameshoes LIKE ?', whereArgs: ['%${name}%']);
+        .query("Shoes", where: 'nameshoes LIKE ?', whereArgs: ['%$name%']);
     if (maps.isEmpty) {
       return null;
     }

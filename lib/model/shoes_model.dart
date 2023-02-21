@@ -1,4 +1,3 @@
-import 'dart:ffi';
 
 class Shoes {
   final String idshoes;

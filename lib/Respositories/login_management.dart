@@ -2,7 +2,7 @@ import 'package:flutter/cupertino.dart';
 import 'package:get/get.dart';
 import 'package:nieak_project/Respositories/user_database.dart';
 import 'package:nieak_project/model_view/shoes_modelview.dart';
-import 'package:path/path.dart';
+
 
 class LoginManagement extends GetxController {
   final shoesView= Get.put(ShoesModelView());

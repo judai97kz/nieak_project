@@ -1,11 +1,8 @@
-import 'dart:ffi';
-
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:intl/intl.dart';
 import 'package:nieak_project/mini_widget/product_widget.dart';
-import 'package:nieak_project/model/bill_model.dart';
-import 'package:nieak_project/model_view/add_cart.dart';
+
 import 'package:nieak_project/model_view/add_product_to_cart.dart';
 import 'package:nieak_project/model_view/bill_modelview.dart';
 import 'package:nieak_project/model_view/key_cart_user.dart';
@@ -26,7 +23,8 @@ class _MyCartState extends State<MyCart> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      appBar: AppBar(backgroundColor: Colors.orange),
+      appBar:
+          AppBar(title: const Text("Giỏ Hàng"), backgroundColor: Colors.orange),
       body: Obx(
         () => Padding(
           padding: const EdgeInsets.all(8.0),
@@ -39,10 +37,10 @@ class _MyCartState extends State<MyCart> {
             child: Stack(
               children: [
                 SingleChildScrollView(
-                  physics: AlwaysScrollableScrollPhysics(),
+                  physics: const AlwaysScrollableScrollPhysics(),
                   child: Column(
                     children: [
-                      Container(
+                      SizedBox(
                           height: 30,
                           child: Center(
                               child: Text(
@@ -51,19 +49,18 @@ class _MyCartState extends State<MyCart> {
                         decoration: BoxDecoration(
                             border: Border.all(color: Colors.red)),
                       ),
-                      Container(
+                      SizedBox(
                         width: double.infinity,
                         child: ListView.builder(
-                            physics: NeverScrollableScrollPhysics(),
+                            physics: const NeverScrollableScrollPhysics(),
                             shrinkWrap: true,
                             itemCount: mycart.allProduct.length,
                             itemBuilder: (context, index) {
-                              print(mycart.allProduct);
                               return ProductWidget(
                                   model: mycart.allProduct[index]);
                             }),
                       ),
-                      SizedBox(
+                      const SizedBox(
                         height: 35,
                       )
                     ],
@@ -75,7 +72,7 @@ class _MyCartState extends State<MyCart> {
                     decoration: BoxDecoration(
                       color: Colors.orange,
                       border: Border.all(color: Colors.orange),
-                      borderRadius: BorderRadius.only(
+                      borderRadius: const BorderRadius.only(
                           bottomLeft: Radius.circular(9.5),
                           bottomRight: Radius.circular(9.5)),
                     ),
@@ -87,22 +84,23 @@ class _MyCartState extends State<MyCart> {
                         children: [
                           Text(
                               "Tổng tiền: ${myFormat.format(mycart.allprice.toInt())}"),
-                          SizedBox(
+                          const SizedBox(
                             width: 20,
                           ),
                           Align(
                             child: Padding(
                               padding: const EdgeInsets.all(2.0),
                               child: ElevatedButton(
-                                child: Text("Thanh Toán"),
-                                onPressed: mycart.allProduct.length == 0
+                                // ignore: sort_child_properties_last
+                                child: const Text("Thanh Toán"),
+                                onPressed: mycart.allProduct.isEmpty
                                     ? null
                                     : () {
                                         Navigator.push(
                                             context,
                                             MaterialPageRoute(
                                                 builder: (context) =>
-                                                    PayScreen()));
+                                                    const PayScreen()));
                                       },
                               ),
                             ),

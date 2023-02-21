@@ -4,7 +4,6 @@ class AddProductInCart extends GetxController {
   var size = 0.obs;
   var amout = 1.obs;
 
-  @override
   void onInint() {
     super.onInit();
     amout;
@@ -12,9 +11,10 @@ class AddProductInCart extends GetxController {
     selectSize(size);
   }
 
+  // ignore: avoid_types_as_parameter_names
   selectSize(var num) {
     size.value = num;
-    print(size.toString());
+
   }
 
   addAmout() {

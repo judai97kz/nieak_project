@@ -1,15 +1,18 @@
 import 'package:flutter/material.dart';
-import 'package:flutter/src/widgets/container.dart';
-import 'package:flutter/src/widgets/framework.dart';
+
 import 'package:get/get.dart';
 import 'package:intl/intl.dart';
-import 'package:nieak_project/model/bill_model.dart';
+import 'package:nieak_project/mini_widget/bank_widget.dart';
+import 'package:nieak_project/mini_widget/select_bank.dart';
+
 import 'package:nieak_project/model_view/add_product_to_cart.dart';
 import 'package:nieak_project/model_view/bill_modelview.dart';
-import 'package:nieak_project/model_view/hide_modelview.dart';
+
 import 'package:nieak_project/model_view/key_cart_user.dart';
-import 'package:nieak_project/screen/cm_screen.dart';
+
 import 'package:nieak_project/model_view/accept_modelview.dart';
+
+import 'cm_screen.dart';
 
 class PayScreen extends StatefulWidget {
   const PayScreen({super.key});
@@ -28,7 +31,7 @@ class _PayScreenState extends State<PayScreen> {
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
-        title: Text("Thanh toán"),
+        title: const Text("Thanh toán"),
       ),
       body: Obx(() => Stack(
             children: [
@@ -39,7 +42,7 @@ class _PayScreenState extends State<PayScreen> {
                     Padding(
                       padding: const EdgeInsets.all(2.0),
                       child: Container(
-                          decoration: BoxDecoration(
+                          decoration: const BoxDecoration(
                             border: Border(
                                 bottom: BorderSide(),
                                 left: BorderSide(),
@@ -50,10 +53,10 @@ class _PayScreenState extends State<PayScreen> {
                             padding: const EdgeInsets.all(2.0),
                             child: Column(
                               children: [
-                                Container(
+                                SizedBox(
                                     width: double.infinity,
                                     child: Text(
-                                        "${getcart.allProduct[i].nameproduct}")),
+                                        getcart.allProduct[i].nameproduct)),
                                 Row(
                                   children: [
                                     Text(
@@ -77,7 +80,7 @@ class _PayScreenState extends State<PayScreen> {
               ),
               Align(
                 alignment: Alignment.bottomCenter,
-                child: Container(
+                child: SizedBox(
                   height: 140,
                   child: Column(
                     children: [
@@ -85,9 +88,7 @@ class _PayScreenState extends State<PayScreen> {
                         decoration: BoxDecoration(
                             border: Border.all(color: Colors.black)),
                       ),
-                      Container(
-                        child: Text("Thông Tin Người Nhận"),
-                      ),
+                      const Text("Thông Tin Người Nhận"),
                       Padding(
                         padding: const EdgeInsets.only(right: 15.0, left: 15.0),
                         child: Container(
@@ -100,30 +101,24 @@ class _PayScreenState extends State<PayScreen> {
                             right: 80.0, top: 2.0, bottom: 2.0, left: 20.0),
                         child: Align(
                             alignment: Alignment.bottomLeft,
-                            child: Container(
-                              child: Text(
-                                  "Người Nhận: ${userinfo.user.value!.name}"),
-                            )),
+                            child: Text(
+                                "Người Nhận: ${userinfo.user.value!.name}")),
                       ),
                       Padding(
                         padding: const EdgeInsets.only(
                             right: 8.0, top: 2.0, bottom: 2.0, left: 20.0),
                         child: Align(
                             alignment: Alignment.centerLeft,
-                            child: Container(
-                              child: Text(
-                                  "Điện Thoại: ${userinfo.user.value!.phone}"),
-                            )),
+                            child: Text(
+                                "Điện Thoại: ${userinfo.user.value!.phone}")),
                       ),
                       Padding(
                         padding: const EdgeInsets.only(
                             right: 8.0, top: 2.0, bottom: 2.0, left: 20.0),
                         child: Align(
                           alignment: Alignment.centerLeft,
-                          child: Container(
-                            child: Text(
-                                "Địa Chỉ: ${userinfo.user.value!.address}"),
-                          ),
+                          child:
+                              Text("Địa Chỉ: ${userinfo.user.value!.address}"),
                         ),
                       ),
                       Padding(
@@ -135,85 +130,84 @@ class _PayScreenState extends State<PayScreen> {
                       ),
                       Padding(
                         padding: const EdgeInsets.all(1.0),
-                        child: Container(
-                          child: Text(
-                              "Tổng Tiền: ${myFormat.format(getcart.allprice.toInt())} "),
-                        ),
+                        child: Text(
+                            "Tổng Tiền: ${myFormat.format(getcart.allprice.toInt())} "),
                       ),
                       GestureDetector(
                           onTap: () {
                             AlertDialog alert = AlertDialog(
-                              title: Text("Thông báo"),
-                              content: Text(
+                              title: const Text("Thông báo"),
+                              content: const Text(
                                   "Bạn có muốn thanh toán hóa đơn này không?"),
                               actions: [
                                 ElevatedButton(
                                     onPressed: () {
-                                      final checkacept =
-                                          TextEditingController();
-                                      final checkHide = Get.put(HideModelView());
                                       AlertDialog alert = AlertDialog(
-                                        title: Text("Xác Nhận"),
-                                        content: Obx(
-                                          () => SingleChildScrollView(
-                                            child: Column(
-                                              children: [
-                                                Text(
-                                                    "Nhập Mật Khẩu Để Xác Nhận"),
-                                                Stack(
-                                                  children: [
-                                                    Padding(
-                                                      padding: const EdgeInsets.all(8.0),
-                                                      child: TextField(
-                                                        obscureText: checkHide.hideaccept.value == 1?false:true,
-                                                        decoration: InputDecoration(
-                                                            errorText: accept
-                                                                .acceptnull ==
-                                                                1
-                                                                ? "Không Được Để Trống!"
-                                                                : accept.acceptstate ==
-                                                                1
-                                                                ? "Mật Khẩu Không Chính Xác!"
-                                                                : null),
-                                                        controller: checkacept,
-                                                      ),
-                                                    ),
-                                                    Align(
-                                                      alignment: Alignment.centerRight,
-                                                      child: Padding(
-                                                        padding: EdgeInsets.fromLTRB(10, 18, 10, 0),
-                                                        child: GestureDetector(
-                                                          onTap: () {
-                                                            checkHide.updateinaccept();
-                                                          },
-                                                          child: Icon(checkHide.hideaccept.value == 1
-                                                              ? Icons.remove_red_eye
-                                                              : Icons.remove_red_eye_outlined),
-                                                        ),
-                                                      ),
-                                                    )
-                                                  ],
-                                                ),
-
-                                              ],
-                                            ),
+                                        title: const Text("Xác Nhận"),
+                                        content: SingleChildScrollView(
+                                          child: Column(
+                                            children: [
+                                              const Text("Lựa Chọn Thanh toán"),
+                                              ElevatedButton(
+                                                  onPressed: () {
+                                                    showModalBottomSheet(
+                                                        context: context,
+                                                        builder: (builder) {
+                                                          return SingleChildScrollView(
+                                                            child: Column(
+                                                              children: [
+                                                                const Text(
+                                                                    "lựa chọn ngân hàng thanh toán"),
+                                                                BankWidget(
+                                                                    context),
+                                                                GestureDetector(
+                                                                  child: Row(
+                                                                    // ignore: prefer_const_literals_to_create_immutables
+                                                                    children: [
+                                                                      const Icon(
+                                                                          Icons
+                                                                              .add),
+                                                                      const Text(
+                                                                          "Nạp tiền vào tài khoản!")
+                                                                    ],
+                                                                  ),
+                                                                  onTap: () {
+                                                                    SelectBank(
+                                                                        context);
+                                                                  },
+                                                                )
+                                                              ],
+                                                            ),
+                                                          );
+                                                        });
+                                                  },
+                                                  child: const Text(
+                                                      "Thanh Toán Trực Tuyến")),
+                                              ElevatedButton(
+                                                  onPressed: () {
+                                                    Navigator.of(context)
+                                                        .pushAndRemoveUntil(
+                                                            MaterialPageRoute(
+                                                                builder:
+                                                                    (context) =>
+                                                                        const CMScreen()),
+                                                            (Route<dynamic>
+                                                                    route) =>
+                                                                false);
+                                                  },
+                                                  child: Text(
+                                                      "Thanh Toán Trực Tiếp")),
+                                            ],
                                           ),
                                         ),
                                         actions: [
-                                          ElevatedButton(
-                                              onPressed: () {
-                                                accept.AcceptBill(
-                                                    checkacept.text, context);
-                                              },
-                                              child: Text("Xác Nhận")),
-                                          SizedBox(),
                                           ElevatedButton(
                                               onPressed: () {
                                                 accept.acceptstate.value = 0;
                                                 accept.acceptnull.value = 0;
                                                 Navigator.of(context).pop();
                                               },
-                                              child: Text("Hủy"))
+                                              child: const Text("Hủy"))
                                         ],
                                       );
 
@@ -222,13 +216,13 @@ class _PayScreenState extends State<PayScreen> {
                                           context: context,
                                           builder: (context) => alert);
                                     },
-                                    child: Text("Đồng Ý")),
-                                SizedBox(),
+                                    child: const Text("Đồng Ý")),
+                                const SizedBox(),
                                 ElevatedButton(
                                     onPressed: () {
                                       Navigator.of(context).pop();
                                     },
-                                    child: Text("Hủy"))
+                                    child: const Text("Hủy"))
                               ],
                             );
                             showDialog(
@@ -239,7 +233,7 @@ class _PayScreenState extends State<PayScreen> {
                                 color: Colors.blue,
                                 border: Border.all(color: Colors.black)),
                             height: 40,
-                            child: Center(
+                            child: const Center(
                                 child: Text(
                               "Thanh Toán",
                               style:

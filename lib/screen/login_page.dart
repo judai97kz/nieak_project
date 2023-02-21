@@ -19,12 +19,6 @@ class _LoginPageState extends State<LoginPage> {
   final getlogin = Get.put(LoginManagement());
   final checkHide = Get.put(HideModelView());
 
-  Widget TextFieldCustom(TextEditingController controller) {
-    return TextField(
-      controller: controller,
-    );
-  }
-
   @override
   void initState() {
     super.initState();
@@ -45,8 +39,9 @@ class _LoginPageState extends State<LoginPage> {
             child: BackdropFilter(
               filter: ImageFilter.blur(sigmaX: 2.5, sigmaY: 2.5),
               child: Container(
-                decoration:
-                    new BoxDecoration(color: Colors.white.withOpacity(0)),
+                padding: EdgeInsets.only(
+                    bottom: MediaQuery.of(context).viewInsets.bottom),
+                decoration: BoxDecoration(color: Colors.white.withOpacity(0)),
                 child: SingleChildScrollView(
                   child: Column(
                     mainAxisAlignment: MainAxisAlignment.end,
@@ -63,6 +58,11 @@ class _LoginPageState extends State<LoginPage> {
                       Padding(
                         padding: const EdgeInsets.all(8.0),
                         child: TextField(
+                          style: TextStyle(
+                              color: MediaQuery.of(context).orientation ==
+                                      Orientation.portrait
+                                  ? Colors.white
+                                  : Colors.black),
                           textInputAction: TextInputAction.next,
                           decoration: InputDecoration(
                               labelText: "Tên Đăng Nhập",
@@ -71,15 +71,7 @@ class _LoginPageState extends State<LoginPage> {
                                           Orientation.portrait
                                       ? Colors.white
                                       : Colors.grey),
-                              enabledBorder: OutlineInputBorder(
-                                  borderRadius: BorderRadius.circular(20),
-                                  borderSide: BorderSide(
-                                      width: 2,
-                                      color:
-                                          MediaQuery.of(context).orientation ==
-                                                  Orientation.portrait
-                                              ? Colors.deepOrange
-                                              : Colors.blueAccent)),
+
                               errorText: getlogin.textuser.value == 1
                                   ? "Tên Đăng Nhập Không Được Để Trống Và Độ Dài Không Nhỏ Hơn 8!"
                                   : null),
@@ -91,12 +83,18 @@ class _LoginPageState extends State<LoginPage> {
                         child: Stack(
                           children: [
                             TextField(
-                              onSubmitted: (_passwordcontroller) {
+                              style: TextStyle(
+                                  color: MediaQuery.of(context).orientation ==
+                                          Orientation.portrait
+                                      ? Colors.white
+                                      : Colors.black),
+                              onSubmitted: (passwordcontroller) {
                                 getlogin.checkChange(_usernamecontroller.text,
-                                    _passwordcontroller, context);
+                                    passwordcontroller, context);
                               },
                               textInputAction: TextInputAction.done,
                               obscureText:
+                                  // ignore: unrelated_type_equality_checks
                                   checkHide.hidelogin == 1 ? false : true,
                               decoration: InputDecoration(
                                   labelStyle: TextStyle(
@@ -105,15 +103,7 @@ class _LoginPageState extends State<LoginPage> {
                                                   Orientation.portrait
                                               ? Colors.white
                                               : Colors.grey),
-                                  enabledBorder: OutlineInputBorder(
-                                      borderRadius: BorderRadius.circular(20),
-                                      borderSide: BorderSide(
-                                          width: 1,
-                                          color: MediaQuery.of(context)
-                                                      .orientation ==
-                                                  Orientation.portrait
-                                              ? Colors.deepOrange
-                                              : Colors.blueAccent)),
+
                                   labelText: "Mật Khẩu",
                                   errorText: getlogin.textpass.value == 1
                                       ? "Mật Khẩu Không Được Để Trống Và Độ Dài Không Nhỏ Hơn 8!"
@@ -129,9 +119,14 @@ class _LoginPageState extends State<LoginPage> {
                                   onTap: () {
                                     checkHide.updateinlogin();
                                   },
-                                  child: Icon(checkHide.hidelogin == 1
-                                      ? Icons.remove_red_eye
-                                      : Icons.remove_red_eye_outlined),
+                                  // ignore: unrelated_type_equality_checks
+                                  child: Icon(
+                                    // ignore: unrelated_type_equality_checks
+                                    checkHide.hidelogin == 1
+                                        ? Icons.remove_red_eye
+                                        : Icons.remove_red_eye_outlined,
+                                    color: Colors.red,
+                                  ),
                                 ),
                               ),
                             )
@@ -150,12 +145,13 @@ class _LoginPageState extends State<LoginPage> {
                               width: double.infinity,
                               decoration: BoxDecoration(
                                   borderRadius: BorderRadius.circular(20),
+                                  // ignore: prefer_const_literals_to_create_immutables
                                   boxShadow: [
-                                    BoxShadow(
-                                      color: Colors.grey.withOpacity(0.7),
+                                    const BoxShadow(
+                                      color: Colors.grey,
                                       spreadRadius: 5,
                                       blurRadius: 7,
-                                      offset: const Offset(
+                                      offset: Offset(
                                           0, 3), // changes position of shadow
                                     ),
                                   ],
@@ -165,14 +161,17 @@ class _LoginPageState extends State<LoginPage> {
                                 "Đăng Nhập",
                                 style: TextStyle(
                                     fontSize: 20,
-                                    color: Color.fromARGB(255, 231, 146, 34)),
+                                    color: Color.fromARGB(242, 10, 14, 240)),
                               )),
                             )),
                       ),
-                      Container(
+                      const SizedBox(
                         height: 70,
-                        child: const Center(
-                          child: Text("Hoặc",style: TextStyle(color: Colors.white),),
+                        child: Center(
+                          child: Text(
+                            "Hoặc",
+                            style: TextStyle(color: Colors.white),
+                          ),
                         ),
                       ),
                       GestureDetector(

@@ -1,8 +1,7 @@
 import 'package:flutter/material.dart';
-import 'package:flutter/src/widgets/container.dart';
-import 'package:flutter/src/widgets/framework.dart';
+
 import 'package:get/get.dart';
-import 'package:intl/intl.dart';
+
 import 'package:nieak_project/mini_widget/bill_widget.dart';
 import 'package:nieak_project/model_view/add_cart.dart';
 import 'package:nieak_project/model_view/bill_modelview.dart';
@@ -20,7 +19,7 @@ class _MyBillState extends State<MyBill> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      appBar: AppBar(title: Text("Lịch Sử Mua Hàng")),
+      appBar: AppBar(title: const Text("Lịch Sử Mua Hàng")),
       body: Obx(() => ListView.builder(
           itemCount: getbill.list.length,
           itemBuilder: ((context, index) {
@@ -29,9 +28,9 @@ class _MyBillState extends State<MyBill> {
                 key: Key(item.idbill.toString()),
                 confirmDismiss: (direction) {
                   AlertDialog alert = AlertDialog(
-                    title: Text("Thông báo"),
+                    title: const Text("Thông báo"),
                     content:
-                        Text("Bạn có muốn xóa sản phẩm này ra khỏi giỏ hàng?"),
+                        const Text("Bạn có muốn xóa sản phẩm này ra khỏi giỏ hàng?"),
                     actions: [
                       ElevatedButton(
                           onPressed: () {
@@ -40,15 +39,15 @@ class _MyBillState extends State<MyBill> {
                             getbill.fetchAll();
                             Navigator.of(context).pop(true);
                             ScaffoldMessenger.of(context).showSnackBar(
-                                SnackBar(content: Text('Đã xóa đơn hàng')));
+                                const SnackBar(content: Text('Đã xóa đơn hàng')));
                           },
-                          child: Text("Đồng Ý")),
-                      SizedBox(),
+                          child: const Text("Đồng Ý")),
+                      const SizedBox(),
                       ElevatedButton(
                           onPressed: () {
                             Navigator.of(context).pop(false);
                           },
-                          child: Text("Hủy"))
+                          child: const Text("Hủy"))
                     ],
                   );
 

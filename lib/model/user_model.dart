@@ -5,6 +5,8 @@ class User{
   final String phone;
   final String address;
   final String idcart;
+  final int role;
+  int wallet;
 
   User({
     required this.username,
@@ -12,7 +14,9 @@ class User{
     required this.name,
     required this.phone,
     required this.address,
-    required this.idcart
+    required this.idcart,
+    required this.wallet,
+    required this.role
   });
   factory User.fromJson(Map<String,dynamic> json) => User(
     username: json['username'],
@@ -21,6 +25,8 @@ class User{
     phone: json['phone'],
     address: json['address'],
     idcart: json['idcart'],
+    wallet: json['wallet'],
+    role: json['role']
   );
 
   Map<String,dynamic> toJson() => {
@@ -30,5 +36,7 @@ class User{
     'phone':phone,
     'address':address,
     'idcart':idcart,
+    'wallet':wallet,
+    'role':role
   };
 }

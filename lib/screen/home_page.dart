@@ -5,22 +5,20 @@ import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:intl/intl.dart';
 import 'package:nieak_project/Respositories/add_shoes.dart';
-import 'package:nieak_project/model/shoes_model.dart';
+
 import 'package:nieak_project/model_view/add_product_to_cart.dart';
+import 'package:nieak_project/model_view/home_modelview.dart';
 import 'package:nieak_project/model_view/key_cart_user.dart';
 import 'package:nieak_project/screen/cart_screen.dart';
 import 'package:nieak_project/screen/info_page.dart';
 import 'package:nieak_project/model_view/shoes_modelview.dart';
 import 'package:nieak_project/screen/user_page.dart';
-import '../Respositories/shoes_database.dart';
 
 final List<String> entries = <String>['All', 'Nike', 'Puma', 'Adidas', 'Dior'];
 String catelogy = 'All';
 
 class HomePage extends StatefulWidget {
-  final String keycart;
-  const HomePage({Key? key, required this.keycart}) : super(key: key);
-
+  const HomePage({Key? key}) : super(key: key);
   @override
   State<HomePage> createState() => _HomePageState();
 }
@@ -30,13 +28,12 @@ class _HomePageState extends State<HomePage> {
   final idcart = Get.put(Userid());
   final cartView = Get.put(AddProductHelper());
   final AddShoes allShoes = AddShoes();
-
   final textfind = TextEditingController();
   NumberFormat myFormat = NumberFormat.decimalPattern('en_us');
   @override
   void initState() {
+    // ignore: todo
     // TODO: implement initState
-
     super.initState();
   }
 
@@ -44,69 +41,34 @@ class _HomePageState extends State<HomePage> {
   Widget build(BuildContext context) {
     return Scaffold(
         appBar: AppBar(
-          title: AnimSearchBar(
-            width: MediaQuery.of(context).orientation == Orientation.portrait
-                ? 300
-                : 600,
-            textController: textfind,
-            onSuffixTap: () {},
-            autoFocus: true,
-            onSubmitted: (String) {
-              shoesView.findShoes(String);
-            },
-          ),
+          title: Text('NIEAK'),
           automaticallyImplyLeading: false,
           actions: [
-            ElevatedButton(
-              onPressed: () {
-                cartView.keychange();
-                cartView.fetchAll();
-
-                Navigator.push(
-                    context,
-                    MaterialPageRoute(
-                      builder: (context) => MyCart(),
-                    ));
-              },
-              child: Stack(
-                children: [
-                  Align(
-                    child: Icon(Icons.shopping_cart),
-                    alignment: Alignment.center,
-                  ),
-                  Align(
-                      alignment: Alignment.centerRight,
-                      child: Obx(() => Padding(
-                            padding: const EdgeInsets.fromLTRB(20, 0, 0, 25),
-                            child: CircleAvatar(
-                              radius: 7,
-                              backgroundColor: Colors.red,
-                              child: Text(
-                                "${cartView.allProduct.length}",
-                                style: TextStyle(fontSize: 10),
-                              ),
-                            ),
-                          ))),
-                ],
+            Padding(
+              padding: const EdgeInsets.all(8.0),
+              child: AnimSearchBar(
+                width: MediaQuery.of(context).orientation == Orientation.portrait
+                    ? 200
+                    : 600,
+                textController: textfind,
+                onSuffixTap: () {},
+                autoFocus: true,
+                // ignore: avoid_types_as_parameter_names, non_constant_identifier_names
+                onSubmitted: (String) {
+                  shoesView.findShoes(String, context);
+                  if (shoesView.result.value == 1) {
+                    ScaffoldMessenger.of(context).showSnackBar(
+                        const SnackBar(content: Text('Sản Phẩm Không Tồn Tại')));
+                    shoesView.result.value = 0;
+                  }
+                },
               ),
             ),
-            GestureDetector(
-                onTap: () {
-                  Navigator.push(context,
-                      MaterialPageRoute(builder: (context) => UserPage()));
-                },
-                child: Padding(
-                  padding: const EdgeInsets.all(8.0),
-                  child: CircleAvatar(
-                    backgroundImage: AssetImage(
-                      "assets/Nike/Nike1/1.jpg",
-                    ),
-                  ),
-                ))
+
           ],
         ),
         body: Container(
-          decoration: BoxDecoration(
+          decoration: const BoxDecoration(
               color: Colors.white,
               image: DecorationImage(image: AssetImage("assets/bg2.jfif"))),
           child: NestedScrollView(
@@ -128,6 +90,7 @@ class _HomePageState extends State<HomePage> {
                             border: Border.all(color: Colors.black)),
                         height: 40,
                         width: double.infinity,
+                        // ignore: avoid_unnecessary_containers
                         child: Container(
                           child: ListView.builder(
                               scrollDirection: Axis.horizontal,
@@ -143,6 +106,7 @@ class _HomePageState extends State<HomePage> {
                                         width: 60,
                                         height: 40,
                                         decoration: BoxDecoration(
+
                                             borderRadius:
                                                 BorderRadius.circular(5),
                                             color: Colors.primaries[Random()
@@ -151,7 +115,8 @@ class _HomePageState extends State<HomePage> {
                                         child: Center(
                                           child: Text(
                                             entries[index],
-                                            style: TextStyle(color: Colors.white),
+                                            style: const TextStyle(
+                                                color: Colors.white),
                                           ),
                                         ),
                                       ),
@@ -163,7 +128,8 @@ class _HomePageState extends State<HomePage> {
                           child: GridView.count(
                         childAspectRatio: MediaQuery.of(context).orientation ==
                                 Orientation.portrait
-                            ? WidgetsBinding.instance.window.physicalSize.height <
+                            ? WidgetsBinding
+                                        .instance.window.physicalSize.height <
                                     1300
                                 ? (9 / 10)
                                 : (11 / 13)
@@ -180,14 +146,15 @@ class _HomePageState extends State<HomePage> {
                                         context,
                                         MaterialPageRoute(
                                             builder: (context) => InfoPage(
-                                                shoes:
-                                                    shoesView.allShoes[index])));
+                                                shoes: shoesView
+                                                    .allShoes[index])));
                                   },
                                   child: Padding(
                                     padding: const EdgeInsets.all(1.5),
                                     child: Container(
                                       decoration: BoxDecoration(
-                                          borderRadius: BorderRadius.circular(10),
+                                          borderRadius:
+                                              BorderRadius.circular(10),
                                           color: Colors.white,
                                           border:
                                               Border.all(color: Colors.black)),
@@ -214,7 +181,7 @@ class _HomePageState extends State<HomePage> {
                                                   : 150,
                                             ),
                                           ),
-                                          SizedBox(
+                                          const SizedBox(
                                             height: 5,
                                           ),
                                           Padding(
@@ -230,7 +197,8 @@ class _HomePageState extends State<HomePage> {
                                                 shoesView
                                                     .allShoes[index].nameshoes,
                                                 textAlign: TextAlign.center,
-                                                style: TextStyle(fontSize: 11.5),
+                                                style: const TextStyle(
+                                                    fontSize: 11.5),
                                               ),
                                             ),
                                           ),
@@ -260,6 +228,7 @@ class _HomePageState extends State<HomePage> {
                   ],
                 ),
               )),
-        ));
+        ),
+    );
   }
 }
