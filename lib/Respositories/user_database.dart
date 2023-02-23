@@ -2,13 +2,13 @@ import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:nieak_project/Respositories/bill_database.dart';
 import 'package:nieak_project/Respositories/cart_database.dart';
+import 'package:nieak_project/model_view/User_ModelView.dart';
 import 'package:nieak_project/model_view/key_cart_user.dart';
 import 'package:nieak_project/screen/management_screen.dart';
 import 'package:path/path.dart';
 import 'package:sqflite/sqflite.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 import '../model/user_model.dart';
-import '../screen/home_page.dart';
 
 class UserDatabaseHelper {
   static const int _version = 1;
@@ -59,12 +59,21 @@ class UserDatabaseHelper {
     return false;
   }
 
+  static Future<List<User>?> getListUser() async {
+    final db = await _getDB();
+    final List<Map<String, dynamic>> maps = await db.query("User");
+    if (maps.isEmpty) {
+      return null;
+    }
+    return List.generate(maps.length, (index) => User.fromJson(maps[index]));
+  }
+
   static Future<void> getAllUser(
       String username, String password, BuildContext context) async {
     final getIdCart = Get.put(Userid());
     final db = await _getDB();
     final List<Map<String, dynamic>> maps = await db.query("User");
-
+    final user = Get.put(UserModelView());
     if (maps.isEmpty) {
       return;
     }
@@ -80,7 +89,7 @@ class UserDatabaseHelper {
             address: users[i].address,
             idcart: users[i].idcart,
             wallet: users[i].wallet,
-        role: users[i].role);
+            role: users[i].role);
         getIdCart.updateID(updateuser);
         CartDatabase.getDB(username);
         BillDatabase.getDB(username);
@@ -89,11 +98,12 @@ class UserDatabaseHelper {
         await prefs.setString('username', username);
         await prefs.setString('password', password);
         check = 0;
+        if (users[i].role == 1) {
+          user.getUser();
+        }
         // ignore: use_build_context_synchronously
         Navigator.pushReplacement(
-            context,
-            MaterialPageRoute(
-                builder: (context) => Managementpage()));
+            context, MaterialPageRoute(builder: (context) => Managementpage()));
         break;
       }
       check++;

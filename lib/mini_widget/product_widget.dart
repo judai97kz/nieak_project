@@ -1,8 +1,12 @@
+import 'dart:typed_data';
+
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:intl/intl.dart';
 import 'package:nieak_project/model/cart_model.dart';
 import 'package:nieak_project/model_view/add_product_to_cart.dart';
+
+import '../model_view/image_modelview.dart';
 
 class ProductWidget extends StatefulWidget {
   final CartModel? model;
@@ -12,6 +16,12 @@ class ProductWidget extends StatefulWidget {
 }
 
 class _ProductWidgetState extends State<ProductWidget> {
+  final getimage = Get.put(ImageModelView());
+  Image convertImg(int i){
+    final Uint8List imageData = getimage.images[i].data;
+    final Image image = Image.memory(imageData);
+    return image;
+  }
   NumberFormat myFormat = NumberFormat.decimalPattern('en_us');
   final updateCart = Get.put(AddProductHelper());
   @override
@@ -39,15 +49,12 @@ class _ProductWidgetState extends State<ProductWidget> {
                 children: [
                   Row(
                     children: [
-                      Container(
-                        decoration: BoxDecoration(
-                            border: Border.all(color: Colors.black)),
-                        child: Image.asset(
-                          "assets/${widget.model?.brand}/$editid/1.jpg",
-                          height: 80,
-                          width: 80,
-                        ),
-                      ),
+                      for(int i=0;i<getimage.images.length;i++) if(getimage.images[i].id=='$editid-1') Container(
+                          decoration: BoxDecoration(
+                              border: Border.all(color: Colors.black)),
+                          width: 80,height: 80,
+                          child: convertImg(i)),
+
                       Padding(
                         padding: const EdgeInsets.all(2.0),
                         child: Column(

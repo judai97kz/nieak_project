@@ -46,6 +46,8 @@ dependencies:
   delayed_display: ^2.0.0
   intl: ^0.18.0
   fluttertoast: any
+  path_provider: any
+  image_picker: ^0.8.6+2
 
 dev_dependencies:
   flutter_test:
@@ -89,6 +91,7 @@ flutter:
    - assets/Adidas/Adidas5/
    - assets/Dior/Dior1/
    - assets/Dior/Dior2/
+   - assets/databases/
 
   # An image asset can refer to one or more resolution-specific "variants", see
   # https://flutter.dev/assets-and-images/#resolution-aware

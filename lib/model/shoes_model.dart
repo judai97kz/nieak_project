@@ -8,7 +8,7 @@ class Shoes {
   final int maxsize;
   final String brand;
   final int imagenumber;
-  final int status;
+  final int amout;
 
   Shoes(
       {required this.idshoes,
@@ -19,7 +19,7 @@ class Shoes {
       required this.maxsize,
       required this.brand,
       required this.imagenumber,
-      required this.status});
+      required this.amout});
 
   factory Shoes.fromJson(Map<String, dynamic> json) => Shoes(
       idshoes: json['idshoes'],
@@ -30,7 +30,7 @@ class Shoes {
       maxsize: json['maxsize'],
       brand: json['brand'],
       imagenumber: json['imagenumber'],
-      status: json['status']);
+      amout: json['amout']);
 
   Map<String, dynamic> toJson() => {
         'idshoes': idshoes,
@@ -41,6 +41,6 @@ class Shoes {
         'maxsize': maxsize,
         'brand': brand,
         'imagenumber': imagenumber,
-        'status': status
+        'amout':amout
       };
 }

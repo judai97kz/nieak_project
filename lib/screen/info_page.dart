@@ -1,3 +1,5 @@
+import 'dart:typed_data';
+
 import 'package:carousel_slider/carousel_slider.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
@@ -6,6 +8,7 @@ import 'package:nieak_project/model/cart_model.dart';
 import 'package:nieak_project/model/shoes_model.dart';
 import 'package:nieak_project/model_view/add_cart.dart';
 import 'package:nieak_project/model_view/add_product_to_cart.dart';
+import 'package:nieak_project/model_view/image_modelview.dart';
 import 'package:nieak_project/screen/cart_screen.dart';
 import 'package:nieak_project/screen/user_page.dart';
 
@@ -20,19 +23,36 @@ class InfoPage extends StatefulWidget {
 class _InfoPageState extends State<InfoPage> {
   final cartadd = Get.put(AddProductInCart());
   final addpro = Get.put(AddProductHelper());
+  final getimage = Get.put(ImageModelView());
   NumberFormat myFormat = NumberFormat.decimalPattern('en_us');
+
+  @override
+  void initState() {
+    // TODO: implement initState
+    super.initState();
+    getimage.getImageByGroup(widget.shoes.idshoes);
+
+  }
+  Image convertImg(int i){
+    final Uint8List imageData = getimage.listimg[i].data;
+    final Image image = Image.memory(imageData);
+    return image;
+  }
   @override
   Widget build(BuildContext context) {
     int size = widget.shoes.minsize;
     return Scaffold(
         appBar: AppBar(
           title: const Text("Thông Tin Sản Phẩm"),
+          leading: BackButton(
+            onPressed: (){
+              getimage.listimg.value=[];
+              Navigator.of(context).pop();
+            },
+          ),
           actions: [
             ElevatedButton(
               onPressed: () {
-                addpro.keychange();
-                addpro.fetchAll();
-
                 Navigator.push(
                     context,
                     MaterialPageRoute(
@@ -86,31 +106,31 @@ class _InfoPageState extends State<InfoPage> {
                     padding: const EdgeInsets.all(8.0),
                     child: Container(
                         decoration: BoxDecoration(
-                            color: Colors.cyan,
+                          borderRadius: BorderRadius.circular(10),
+                            color: Colors.white,
                             border: Border.all(color: Colors.black)),
                         child: Stack(
                           children: [
                             CarouselSlider(
                               options: CarouselOptions(
+                                autoPlay: true,
                                   enlargeCenterPage: true,
                                   enableInfiniteScroll: true),
                               items: [
-                                for (int i = 1;
-                                    i <= widget.shoes.imagenumber;
+                                for (int i = 0;
+                                    i <  getimage.listimg.length;
                                     i++)
                                   Stack(
                                     children: [
-                                      Image.asset(
-                                        "assets/${widget.shoes.brand}/${widget.shoes.idshoes}/$i.jpg",
-                                        height: 500,
-                                        width: 500,
-                                      ),
+                                      Align(
+                                        alignment: Alignment.center,
+                                          child: Container(child: convertImg(i),)),
                                       Align(
                                           alignment: Alignment.bottomCenter,
                                           child: Container(
                                             color: Colors.white10,
                                             child: Text(
-                                                "$i/${widget.shoes.imagenumber}"),
+                                                "${i+1}/${widget.shoes.imagenumber}"),
                                           ))
                                     ],
                                   )
@@ -178,7 +198,7 @@ class _InfoPageState extends State<InfoPage> {
                     child: Align(
                       alignment: Alignment.centerLeft,
                       child: Text(
-                          "Tình Trạng: ${widget.shoes.status == 0 ? "Hết Hàng" : "Còn Hàng"}"),
+                          "Tình Trạng: ${widget.shoes.amout == 0 ? "Hết Hàng" : "Còn ${widget.shoes.amout} đôi"}"),
                     ),
                   )
                 ],
@@ -191,7 +211,7 @@ class _InfoPageState extends State<InfoPage> {
                 children: [
                   Padding(
                     padding: const EdgeInsets.all(8.0),
-                    child: widget.shoes.status == 0
+                    child: widget.shoes.amout == 0
                         ? const ElevatedButton(
                             onPressed: null,
                             child: Text("Không thể đặt hàng!"))

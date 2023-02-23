@@ -1,18 +1,18 @@
+import 'dart:io';
 import 'dart:math';
-
 import 'package:anim_search_bar/anim_search_bar.dart';
+import 'package:carousel_slider/carousel_slider.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter/services.dart';
 import 'package:get/get.dart';
 import 'package:intl/intl.dart';
 import 'package:nieak_project/Respositories/add_shoes.dart';
-
 import 'package:nieak_project/model_view/add_product_to_cart.dart';
-import 'package:nieak_project/model_view/home_modelview.dart';
+import 'package:nieak_project/model_view/brand_modelview.dart';
 import 'package:nieak_project/model_view/key_cart_user.dart';
-import 'package:nieak_project/screen/cart_screen.dart';
 import 'package:nieak_project/screen/info_page.dart';
 import 'package:nieak_project/model_view/shoes_modelview.dart';
-import 'package:nieak_project/screen/user_page.dart';
+import '../model_view/image_modelview.dart';
 
 final List<String> entries = <String>['All', 'Nike', 'Puma', 'Adidas', 'Dior'];
 String catelogy = 'All';
@@ -30,102 +30,135 @@ class _HomePageState extends State<HomePage> {
   final AddShoes allShoes = AddShoes();
   final textfind = TextEditingController();
   NumberFormat myFormat = NumberFormat.decimalPattern('en_us');
+  final getimage = Get.put(ImageModelView());
+  final _scrollController = ScrollController();
+  final getallbrand = Get.put(BrandModelView());
+
   @override
   void initState() {
     // ignore: todo
     // TODO: implement initState
     super.initState();
+    getimage.getImage();
+    getallbrand.getBrand();
+  }
+
+  Image convertImg(int i) {
+    final Uint8List imageData = getimage.images[i].data;
+    final Image image = Image.memory(imageData);
+    return image;
   }
 
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-        appBar: AppBar(
-          title: Text('NIEAK'),
-          automaticallyImplyLeading: false,
-          actions: [
-            Padding(
-              padding: const EdgeInsets.all(8.0),
-              child: AnimSearchBar(
-                width: MediaQuery.of(context).orientation == Orientation.portrait
-                    ? 200
-                    : 600,
-                textController: textfind,
-                onSuffixTap: () {},
-                autoFocus: true,
-                // ignore: avoid_types_as_parameter_names, non_constant_identifier_names
-                onSubmitted: (String) {
-                  shoesView.findShoes(String, context);
-                  if (shoesView.result.value == 1) {
-                    ScaffoldMessenger.of(context).showSnackBar(
-                        const SnackBar(content: Text('Sản Phẩm Không Tồn Tại')));
-                    shoesView.result.value = 0;
-                  }
-                },
-              ),
-            ),
-
-          ],
-        ),
-        body: Container(
-          decoration: const BoxDecoration(
-              color: Colors.white,
-              image: DecorationImage(image: AssetImage("assets/bg2.jfif"))),
-          child: NestedScrollView(
-              headerSliverBuilder: (BuildContext context, bool isScrolled) {
-                return [
-                  SliverAppBar(
-                    automaticallyImplyLeading: false,
-                    title: Image.asset("assets/Nike/Nike1/1.jpg"),
-                    toolbarHeight: 200,
-                  )
-                ];
+      appBar: AppBar(
+        title: Text('NIEAK'),
+        automaticallyImplyLeading: false,
+        actions: [
+          Padding(
+            padding: const EdgeInsets.all(5.0),
+            child: AnimSearchBar(
+              width: MediaQuery.of(context).orientation == Orientation.portrait
+                  ? 300
+                  : 600,
+              textController: textfind,
+              onSuffixTap: () {},
+              autoFocus: true,
+              // ignore: avoid_types_as_parameter_names, non_constant_identifier_names
+              onSubmitted: (String) {
+                shoesView.findShoes(String, context);
+                if (shoesView.result.value == 1) {
+                  ScaffoldMessenger.of(context).showSnackBar(
+                      const SnackBar(content: Text('Sản Phẩm Không Tồn Tại')));
+                  shoesView.result.value = 0;
+                }
               },
-              body: Padding(
-                padding: const EdgeInsets.all(1.5),
-                child: Column(
-                  children: [
-                    Container(
-                        decoration: BoxDecoration(
-                            border: Border.all(color: Colors.black)),
-                        height: 40,
-                        width: double.infinity,
-                        // ignore: avoid_unnecessary_containers
-                        child: Container(
-                          child: ListView.builder(
-                              scrollDirection: Axis.horizontal,
-                              shrinkWrap: true,
-                              itemCount: entries.length,
-                              itemBuilder: (context, index) => GestureDetector(
-                                    onTap: () {
-                                      shoesView.fetchAll(entries[index]);
-                                    },
-                                    child: Padding(
-                                      padding: const EdgeInsets.all(5.0),
-                                      child: Container(
-                                        width: 60,
-                                        height: 40,
-                                        decoration: BoxDecoration(
+            ),
+          ),
+        ],
+      ),
+      body: Container(
+        decoration: const BoxDecoration(
+            color: Colors.white,
+            image: DecorationImage(image: AssetImage("assets/bg2.jfif"))),
+        child: NestedScrollView(
+            headerSliverBuilder: (BuildContext context, bool isScrolled) {
+              return [
+                SliverAppBar(
+                  backgroundColor: Colors.white,
+                  automaticallyImplyLeading: false,
+                  title: CarouselSlider(
+                    options: CarouselOptions(
+                      autoPlay: true,
+                        enlargeCenterPage: true,
+                        enableInfiniteScroll: true),
+                    items: [
+                      for (int i = 0;
+                      i <  10;
+                      i++)
+                        Stack(
+                          children: [
+                            Align(
+                                alignment: Alignment.center,
+                                child: Container(child: convertImg(i),)),
 
-                                            borderRadius:
-                                                BorderRadius.circular(5),
-                                            color: Colors.primaries[Random()
-                                                .nextInt(
-                                                    Colors.primaries.length)]),
-                                        child: Center(
-                                          child: Text(
-                                            entries[index],
-                                            style: const TextStyle(
-                                                color: Colors.white),
-                                          ),
+                          ],
+                        )
+                    ],
+
+                  ),
+                  toolbarHeight: 200,
+                )
+              ];
+            },
+            body: Padding(
+              padding: const EdgeInsets.all(1.5),
+              child: Column(
+                children: [
+                  Container(
+                      height: 40,
+                      width: double.infinity,
+                      // ignore: avoid_unnecessary_containers
+                      child: Container(
+                        child: ListView.builder(
+                            controller: _scrollController,
+                            scrollDirection: Axis.horizontal,
+                            shrinkWrap: true,
+                            itemCount: getallbrand.listbrand.length,
+                            itemBuilder: (context, index) => GestureDetector(
+                                  onTap: () {
+                                    shoesView.fetchAll(getallbrand.listbrand[index].id);
+                                  },
+                                  child: Padding(
+                                    padding: const EdgeInsets.all(5.0),
+                                    child: Container(
+                                      width: 60,
+                                      height: 40,
+                                      decoration: BoxDecoration(
+                                          borderRadius:
+                                              BorderRadius.circular(5),
+                                          color: Colors.primaries[Random()
+                                              .nextInt(
+                                                  Colors.primaries.length)]),
+                                      child: Center(
+                                        child: Text(getallbrand.listbrand[index].id.toString()
+                                         ,
+                                          style: const TextStyle(
+                                              color: Colors.white),
                                         ),
                                       ),
                                     ),
-                                  )),
-                        )),
-                    Obx(
-                      () => Expanded(
-                          child: GridView.count(
+                                  ),
+                                )),
+                      )),
+                  Obx(
+                    () => Expanded(
+                        child: Scrollbar(
+                      thickness: 8.0, // độ dày của con lăn
+                      radius: Radius.circular(
+                          4.0), // độ cong của các góc của con lăn
+                      child: GridView.count(
                         childAspectRatio: MediaQuery.of(context).orientation ==
                                 Orientation.portrait
                             ? WidgetsBinding
@@ -142,6 +175,8 @@ class _HomePageState extends State<HomePage> {
                             shoesView.allShoes.length,
                             (index) => GestureDetector(
                                   onTap: () {
+                                    getimage.getImageByGroup(
+                                        shoesView.allShoes[index].idshoes);
                                     Navigator.push(
                                         context,
                                         MaterialPageRoute(
@@ -163,24 +198,15 @@ class _HomePageState extends State<HomePage> {
                                           Container(
                                             height: 10,
                                           ),
-                                          Container(
-                                            decoration: BoxDecoration(
-                                                border: Border.all(
-                                                    color: Colors.black)),
-                                            child: Image.asset(
-                                              "assets/${shoesView.allShoes[index].brand}/${shoesView.allShoes[index].idshoes}/1.jpg",
-                                              height: MediaQuery.of(context)
-                                                          .orientation ==
-                                                      Orientation.portrait
-                                                  ? 130
-                                                  : 150,
-                                              width: MediaQuery.of(context)
-                                                          .orientation ==
-                                                      Orientation.portrait
-                                                  ? 130
-                                                  : 150,
-                                            ),
-                                          ),
+                                          for (int i = 0;
+                                              i < getimage.images.length;
+                                              i++)
+                                            if (getimage.images[i].id ==
+                                                '${shoesView.allShoes[index].idshoes}-1')
+                                              Container(
+                                                  width: 135,
+                                                  height: 135,
+                                                  child: convertImg(i)),
                                           const SizedBox(
                                             height: 5,
                                           ),
@@ -223,12 +249,13 @@ class _HomePageState extends State<HomePage> {
                                     ),
                                   ),
                                 )),
-                      )),
-                    )
-                  ],
-                ),
-              )),
-        ),
+                      ),
+                    )),
+                  )
+                ],
+              ),
+            )),
+      ),
     );
   }
 }
