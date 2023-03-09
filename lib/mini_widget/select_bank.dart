@@ -72,11 +72,7 @@ void SelectBank(BuildContext context) {
                 const Text("Nhập Số Tiền Muốn Nạp"),
                 TextField(
                   onChanged: (string) {
-                    string = '${_formatNumber(string.replaceAll(',', ''))}';
-                    money.value = TextEditingValue(
-                      text: string,
-                      selection: TextSelection.collapsed(offset: string.length),
-                    );
+
                   },
                   textInputAction: TextInputAction.done,
                   decoration: const InputDecoration(labelText: 'Số tiền'),

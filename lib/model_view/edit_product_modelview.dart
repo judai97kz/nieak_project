@@ -36,7 +36,7 @@ class EditProductModelView extends GetxController {
       String brand,
       List<XFile> imageFileList,
       BuildContext context,
-      int Oldimage) async {
+      int Oldimage,double rating,) async {
     if (id == "" ||
         name == "" ||
         price == "" ||
@@ -92,7 +92,9 @@ class EditProductModelView extends GetxController {
             maxsize: int.parse(max),
             brand: brand,
             imagenumber: imageFileList.length,
-            amout: int.parse(amout));
+            amout: int.parse(amout),
+          rating: rating
+        );
 
         for (int i = 0; i < Oldimage; i++) {
           imagemodel.deleteimage("${id}-${i + 1}");

@@ -72,7 +72,7 @@ class _ManagementpageState extends State<Managementpage> {
                                           ? EdgeInsets.fromLTRB(0, 0, 25, 15)
                                           : EdgeInsets.fromLTRB(0, 0, 45, 20)
                                       : roleuser.user.value!.role == 1
-                                          ? EdgeInsets.fromLTRB(0, 0, 65, 0)
+                                          ? EdgeInsets.fromLTRB(0, 0, 60, 0)
                                           : EdgeInsets.fromLTRB(0, 0, 95, 0),
                                   child: CircleAvatar(
                                     radius: 7,
@@ -87,7 +87,7 @@ class _ManagementpageState extends State<Managementpage> {
                       label: 'Cart',
                       backgroundColor: Colors.red),
                   BottomNavigationBarItem(
-                      icon: Icon(Icons.person), label: 'Cá Nhân'),
+                      icon: Icon(Icons.person), label: 'User'),
                   BottomNavigationBarItem(
                       icon: Icon(Icons.admin_panel_settings), label: 'Admin')
                 ],
@@ -134,7 +134,7 @@ class _ManagementpageState extends State<Managementpage> {
                       label: 'Cart',
                       backgroundColor: Colors.red),
                   BottomNavigationBarItem(
-                      icon: Icon(Icons.person), label: 'Cá Nhân'),
+                      icon: Icon(Icons.person), label: 'User'),
                 ],
               ));
   }

@@ -29,7 +29,7 @@ class ShoesModelView extends GetxController {
   }
 
   findShoes(String name, BuildContext context) async {
-    var shoes = await ShoesDatabaseHelper.findShoes(name);
+    var shoes = await ShoesDatabaseHelper.findShoes(name,context);
     if (shoes == null) {
       result.value = 1;
       allShoes.value = [];

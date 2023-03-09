@@ -3,6 +3,7 @@ import 'package:get/get.dart';
 import 'package:nieak_project/Respositories/bill_database.dart';
 import 'package:nieak_project/Respositories/cart_database.dart';
 import 'package:nieak_project/model_view/User_ModelView.dart';
+import 'package:nieak_project/model_view/brand_modelview.dart';
 import 'package:nieak_project/model_view/key_cart_user.dart';
 import 'package:nieak_project/screen/management_screen.dart';
 import 'package:path/path.dart';
@@ -70,6 +71,7 @@ class UserDatabaseHelper {
 
   static Future<void> getAllUser(
       String username, String password, BuildContext context) async {
+    final brand = Get.put(BrandModelView());
     final getIdCart = Get.put(Userid());
     final db = await _getDB();
     final List<Map<String, dynamic>> maps = await db.query("User");
@@ -101,6 +103,7 @@ class UserDatabaseHelper {
         if (users[i].role == 1) {
           user.getUser();
         }
+        brand.getBrand();
         // ignore: use_build_context_synchronously
         Navigator.pushReplacement(
             context, MaterialPageRoute(builder: (context) => Managementpage()));

@@ -81,7 +81,9 @@ class AddProductModelView extends GetxController {
             maxsize: int.parse(max),
             brand: brand,
             imagenumber: imageFileList.length,
-            amout: int.parse(amout));
+            amout: int.parse(amout),
+          rating: 0.0
+        );
         final addnewshoes = Get.put(ShoesModelView());
         addnewshoes.checkShoes(newShoes, imageFileList, context);
       }else{

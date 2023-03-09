@@ -183,20 +183,6 @@ class _PayScreenState extends State<PayScreen> {
                                                   },
                                                   child: const Text(
                                                       "Thanh Toán Trực Tuyến")),
-                                              ElevatedButton(
-                                                  onPressed: () {
-                                                    Navigator.of(context)
-                                                        .pushAndRemoveUntil(
-                                                            MaterialPageRoute(
-                                                                builder:
-                                                                    (context) =>
-                                                                        const CMScreen()),
-                                                            (Route<dynamic>
-                                                                    route) =>
-                                                                false);
-                                                  },
-                                                  child: Text(
-                                                      "Thanh Toán Trực Tiếp")),
                                             ],
                                           ),
                                         ),

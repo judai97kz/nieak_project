@@ -63,6 +63,7 @@ class _AddNewProductState extends State<AddNewProduct> {
       },
       child: Scaffold(
         appBar: AppBar(
+          title: Text("Thêm Sản Phẩm Mới"),
           leading: BackButton(onPressed: () {
             theindex.index.value = 0;
             imageFileList = [];
@@ -88,19 +89,24 @@ class _AddNewProductState extends State<AddNewProduct> {
                       flex: 1,
                       child: Padding(
                         padding: const EdgeInsets.all(2.0),
-                        child: GridView.builder(
-                          itemCount: theindex.index.value,
-                          itemBuilder: (context, index) {
-                            return Padding(
-                              padding: const EdgeInsets.all(1.0),
-                              child: Image.file(
-                                File(imageFileList[index].path),
-                                fit: BoxFit.cover,
-                              ),
-                            );
-                          },
-                          gridDelegate: SliverGridDelegateWithFixedCrossAxisCount(
-                            crossAxisCount: 3,
+                        child: Container(
+                          decoration: BoxDecoration(
+                            border: Border.all(color: Colors.black)
+                          ),
+                          child: GridView.builder(
+                            itemCount: theindex.index.value,
+                            itemBuilder: (context, index) {
+                              return Padding(
+                                padding: const EdgeInsets.all(1.0),
+                                child: Image.file(
+                                  File(imageFileList[index].path),
+                                  fit: BoxFit.cover,
+                                ),
+                              );
+                            },
+                            gridDelegate: SliverGridDelegateWithFixedCrossAxisCount(
+                              crossAxisCount: 3,
+                            ),
                           ),
                         ),
                       ),

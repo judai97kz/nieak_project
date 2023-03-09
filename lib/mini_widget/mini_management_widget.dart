@@ -27,69 +27,89 @@ class _ManagementProductWidgetState extends State<ManagementProductWidget> {
       padding: const EdgeInsets.all(2.5),
       child: Container(
         decoration: BoxDecoration(border: Border.all(color: Colors.blue)),
-        child: Column(
-          children: [
-            Text("Tên Sản Phẩm:  ${widget.model.nameshoes}"),
-            Text("Size: ${widget.model.minsize}-${widget.model.maxsize}"),
-            Text("Lượng Hàng: ${widget.model.amout}"),
-            Text("Đơn Giá: ${widget.model.price}"),
-            Container(
-              decoration:
-                  BoxDecoration(border: Border.all(color: Colors.black)),
-              child: Row(
-                mainAxisAlignment: MainAxisAlignment.center,
-                children: [
-                  Expanded(
-                    child: GestureDetector(
-                      onTap: (){
-                        Navigator.of(context).push(MaterialPageRoute(builder: (builder)=>EditProductPage(model: widget.model)));
-                      },
-                      child: Container(
-                          decoration: BoxDecoration(
-                              border: Border.all(color: Colors.black)),
-                          child: Center(child: Text("Sửa"))),
-                    ),
-                  ),
-                  Expanded(
-                    child: GestureDetector(
-                      onTap: () {
-                        AlertDialog dialog = AlertDialog(
-                          content: Text("Xóa Sản Phẩm?"),
-                          actions: [
-                            ElevatedButton(
-                                onPressed: () {
-                                  shoesView.deleteShoes(widget.model);
-                                  for (int i = 0;
-                                      i < widget.model.imagenumber;
-                                      i++) {
-                                    getimage.deleteimage(
-                                        "${widget.model.idshoes}-${i + 1}");
-                                  }
-                                  Navigator.of(context).pop(true);
-                                },
-                                child: Text("Xác Nhận")),
-                            ElevatedButton(
-                                onPressed: () {
-                                  Navigator.of(context).pop(false);
-                                },
-                                child: Text("Hủy"))
-                          ],
-                        );
-                        showDialog(
-                            barrierDismissible: false,
-                            context: context,
-                            builder: (context) => dialog);
-                      },
-                      child: Container(
-                          decoration: BoxDecoration(
-                              border: Border.all(color: Colors.black)),
-                          child: Center(child: Text("Xóa"))),
-                    ),
-                  )
-                ],
+        child: Padding(
+          padding: const EdgeInsets.all(2.0),
+          child: Column(
+            crossAxisAlignment: CrossAxisAlignment.start,
+            children: [
+              Padding(
+                padding: const EdgeInsets.all(1.0),
+                child: Text("Mã sản phẩm : ${widget.model.idshoes}"),
               ),
-            )
-          ],
+              Padding(
+                padding: const EdgeInsets.all(1.0),
+                child: Text("Tên Sản Phẩm:  ${widget.model.nameshoes}"),
+              ),
+              Padding(
+                padding: const EdgeInsets.all(1.0),
+                child: Text("Size: ${widget.model.minsize}-${widget.model.maxsize}",textAlign: TextAlign.left,),
+              ),
+              Padding(
+                padding: const EdgeInsets.all(1.0),
+                child: Text("Lượng Hàng: ${widget.model.amout}"),
+              ),
+              Padding(
+                padding: const EdgeInsets.all(1.0),
+                child: Text("Đơn Giá: ${widget.model.price} đồng"),
+              ),
+              Container(
+                decoration:
+                    BoxDecoration(border: Border.all(color: Colors.black)),
+                child: Row(
+                  mainAxisAlignment: MainAxisAlignment.center,
+                  children: [
+                    Expanded(
+                      child: GestureDetector(
+                        onTap: (){
+                          Navigator.of(context).push(MaterialPageRoute(builder: (builder)=>EditProductPage(model: widget.model)));
+                        },
+                        child: Container(
+                            decoration: BoxDecoration(
+                                border: Border.all(color: Colors.black)),
+                            child: Center(child: Text("Sửa"))),
+                      ),
+                    ),
+                    Expanded(
+                      child: GestureDetector(
+                        onTap: () {
+                          AlertDialog dialog = AlertDialog(
+                            content: Text("Xóa Sản Phẩm?"),
+                            actions: [
+                              ElevatedButton(
+                                  onPressed: () {
+                                    shoesView.deleteShoes(widget.model);
+                                    for (int i = 0;
+                                        i < widget.model.imagenumber;
+                                        i++) {
+                                      getimage.deleteimage(
+                                          "${widget.model.idshoes}-${i + 1}");
+                                    }
+                                    Navigator.of(context).pop(true);
+                                  },
+                                  child: Text("Xác Nhận")),
+                              ElevatedButton(
+                                  onPressed: () {
+                                    Navigator.of(context).pop(false);
+                                  },
+                                  child: Text("Hủy"))
+                            ],
+                          );
+                          showDialog(
+                              barrierDismissible: false,
+                              context: context,
+                              builder: (context) => dialog);
+                        },
+                        child: Container(
+                            decoration: BoxDecoration(
+                                border: Border.all(color: Colors.black)),
+                            child: Center(child: Text("Xóa"))),
+                      ),
+                    )
+                  ],
+                ),
+              )
+            ],
+          ),
         ),
       ),
     );

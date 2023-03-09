@@ -23,7 +23,6 @@ class _UserManagementScreenState extends State<UserManagementScreen> {
 
   @override
   Widget build(BuildContext context) {
-    print(listuser.listuser.length);
     return Scaffold(
       appBar: AppBar(
         title: Text("Quản Lý Người Dùng"),
@@ -51,12 +50,14 @@ class _UserManagementScreenState extends State<UserManagementScreen> {
                                 child: Column(
                                   children: [
                                     Row(
+                                      mainAxisAlignment:
+                                      MainAxisAlignment.spaceAround,
                                       children: [
                                         Container(
-                                          width: 150,
+
                                           child: Text(
                                             "Tên Đăng Nhập:",
-                                            textAlign: TextAlign.start,
+                                            textAlign: TextAlign.left,
                                           ),
                                         ),
                                         Container(
@@ -68,12 +69,12 @@ class _UserManagementScreenState extends State<UserManagementScreen> {
                                     ),
                                     Row(
                                       mainAxisAlignment:
-                                          MainAxisAlignment.start,
+                                          MainAxisAlignment.spaceAround,
                                       children: [
                                         Container(
-                                          width: 150,
+
                                           child: Text("Tên Người Dùng:",
-                                              textAlign: TextAlign.start),
+                                              textAlign: TextAlign.left),
                                         ),
                                         Container(
                                           child: Text(
@@ -83,11 +84,10 @@ class _UserManagementScreenState extends State<UserManagementScreen> {
                                     ),
                                     Row(
                                       mainAxisAlignment:
-                                          MainAxisAlignment.start,
+                                          MainAxisAlignment.spaceAround,
                                       children: [
                                         Container(
-                                          width: 150,
-                                          child: Text("Số Điện Thoại:"),
+                                          child: Text("Số Điện Thoại:",textAlign: TextAlign.left),
                                         ),
                                         Container(
                                           child: Text(
@@ -97,11 +97,11 @@ class _UserManagementScreenState extends State<UserManagementScreen> {
                                     ),
                                     Row(
                                       mainAxisAlignment:
-                                          MainAxisAlignment.start,
+                                      MainAxisAlignment.spaceAround,
+
                                       children: [
                                         Container(
-                                          width: 150,
-                                          child: Text("Địa Chỉ:"),
+                                          child: Text("Địa Chỉ:",textAlign: TextAlign.left),
                                         ),
                                         Container(
                                           child: Text(
@@ -124,7 +124,7 @@ class _UserManagementScreenState extends State<UserManagementScreen> {
                                   final address = TextEditingController(
                                       text: listuser.listuser[index].address);
                                   AlertDialog dialog = AlertDialog(
-                                    title: Text("Cảnh Báo!"),
+                                    title: Text("Sửa Thông Tin!"),
                                     content: SingleChildScrollView(
                                       child: Column(
                                         children: [

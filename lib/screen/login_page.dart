@@ -2,13 +2,16 @@ import 'dart:ui';
 
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
+import 'package:nieak_project/Respositories/bill_database.dart';
 import 'package:nieak_project/Respositories/login_management.dart';
+import 'package:nieak_project/model_view/bill_modelview.dart';
+import 'package:nieak_project/model_view/brand_modelview.dart';
 import 'package:nieak_project/model_view/hide_modelview.dart';
+import 'package:nieak_project/model_view/image_modelview.dart';
 import 'package:nieak_project/screen/signup_page.dart';
 
 class LoginPage extends StatefulWidget {
   const LoginPage({Key? key}) : super(key: key);
-
   @override
   State<LoginPage> createState() => _LoginPageState();
 }
@@ -18,10 +21,16 @@ class _LoginPageState extends State<LoginPage> {
   final _passwordcontroller = TextEditingController();
   final getlogin = Get.put(LoginManagement());
   final checkHide = Get.put(HideModelView());
+  final imageCheck = Get.put(ImageModelView());
+  final getallbrand = Get.put(BrandModelView());
+  final  orderbill = Get.put(BillDatabaseHelper());
 
   @override
   void initState() {
     super.initState();
+    imageCheck.getImage();
+    getallbrand.getBrand();
+    orderbill.getOrderBill();
   }
 
   @override
@@ -31,11 +40,7 @@ class _LoginPageState extends State<LoginPage> {
       body: Obx(
         () => Container(
             decoration: BoxDecoration(
-                image: DecorationImage(
-                    image: AssetImage(MediaQuery.of(context).orientation ==
-                            Orientation.portrait
-                        ? "assets/no.jfif"
-                        : "assets/no1.jfif"))),
+                color: Color.fromRGBO(255, 179, 102, 1)),
             child: BackdropFilter(
               filter: ImageFilter.blur(sigmaX: 2.5, sigmaY: 2.5),
               child: Container(
@@ -52,25 +57,19 @@ class _LoginPageState extends State<LoginPage> {
                             decoration: BoxDecoration(
                                 borderRadius: BorderRadius.circular(100),
                                 border:
-                                    Border.all(color: Colors.white, width: 10)),
-                            child: Image.asset("assets/logolight.png")),
+                                    Border.all(color: Colors.black, width: 10)),
+                            child: Image.asset("assets/nieaklogo.png")),
                       ),
                       Padding(
                         padding: const EdgeInsets.all(8.0),
                         child: TextField(
                           style: TextStyle(
-                              color: MediaQuery.of(context).orientation ==
-                                      Orientation.portrait
-                                  ? Colors.white
-                                  : Colors.black),
+                              color: Colors.black),
                           textInputAction: TextInputAction.next,
                           decoration: InputDecoration(
                               labelText: "Tên Đăng Nhập",
                               labelStyle: TextStyle(
-                                  color: MediaQuery.of(context).orientation ==
-                                          Orientation.portrait
-                                      ? Colors.white
-                                      : Colors.grey),
+                                  color: Colors.black),
 
                               errorText: getlogin.textuser.value == 1
                                   ? "Tên Đăng Nhập Không Được Để Trống Và Độ Dài Không Nhỏ Hơn 8!"
@@ -84,10 +83,7 @@ class _LoginPageState extends State<LoginPage> {
                           children: [
                             TextField(
                               style: TextStyle(
-                                  color: MediaQuery.of(context).orientation ==
-                                          Orientation.portrait
-                                      ? Colors.white
-                                      : Colors.black),
+                                  color: Colors.black),
                               onSubmitted: (passwordcontroller) {
                                 getlogin.checkChange(_usernamecontroller.text,
                                     passwordcontroller, context);
@@ -99,10 +95,7 @@ class _LoginPageState extends State<LoginPage> {
                               decoration: InputDecoration(
                                   labelStyle: TextStyle(
                                       color:
-                                          MediaQuery.of(context).orientation ==
-                                                  Orientation.portrait
-                                              ? Colors.white
-                                              : Colors.grey),
+                                          Colors.black),
 
                                   labelText: "Mật Khẩu",
                                   errorText: getlogin.textpass.value == 1
@@ -125,7 +118,7 @@ class _LoginPageState extends State<LoginPage> {
                                     checkHide.hidelogin == 1
                                         ? Icons.remove_red_eye
                                         : Icons.remove_red_eye_outlined,
-                                    color: Colors.red,
+                                    color: Colors.green,
                                   ),
                                 ),
                               ),
@@ -170,7 +163,7 @@ class _LoginPageState extends State<LoginPage> {
                         child: Center(
                           child: Text(
                             "Hoặc",
-                            style: TextStyle(color: Colors.white),
+                            style: TextStyle(color: Colors.black),
                           ),
                         ),
                       ),
@@ -195,6 +188,9 @@ class _LoginPageState extends State<LoginPage> {
                             )
                           ],
                         ),
+                      ),
+                      SizedBox(
+                        height: 10,
                       )
                     ],
                   ),

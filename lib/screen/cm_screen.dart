@@ -3,6 +3,7 @@ import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:nieak_project/model_view/key_cart_user.dart';
 import 'package:nieak_project/screen/home_page.dart';
+import 'package:nieak_project/screen/management_screen.dart';
 
 class CMScreen extends StatelessWidget {
   const CMScreen({super.key});
@@ -26,7 +27,7 @@ class CMScreen extends StatelessWidget {
               onPressed: () {
                 Navigator.of(context).pushAndRemoveUntil(
                     MaterialPageRoute(
-                        builder: (context) => HomePage(
+                        builder: (context) => Managementpage(
 
                             )),
                     (Route<dynamic> route) => false);

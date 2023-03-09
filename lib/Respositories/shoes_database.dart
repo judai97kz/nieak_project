@@ -22,7 +22,7 @@ class ShoesDatabaseHelper {
     return openDatabase(join(await getDatabasesPath(), _dbName),
         onCreate: (db, version) async {
       await db.execute(
-          "CREATE TABLE Shoes(idshoes TEXT PRIMARY KEY, nameshoes TEXT NOT NULL, price INTEGER NOT NULL, color TEXT NOT NULL, minsize INTEGER NOT NULL, maxsize INTEGER NOT NULL, brand TEXT NOT NULL, imagenumber INTEGER NOT NULL, amout INTEGER NOT NULL);");
+          "CREATE TABLE Shoes(idshoes TEXT PRIMARY KEY, nameshoes TEXT NOT NULL, price INTEGER NOT NULL, color TEXT NOT NULL, minsize INTEGER NOT NULL, maxsize INTEGER NOT NULL, brand TEXT NOT NULL, imagenumber INTEGER, amout INTEGER NOT NULL, rating REAL NOT NULL);");
     }, version: _version);
   }
 
@@ -57,13 +57,16 @@ class ShoesDatabaseHelper {
     return List.generate(maps.length, (index) => Shoes.fromJson(maps[index]));
   }
 
-  static Future<List<Shoes>?> findShoes(String name) async {
+  static Future<List<Shoes>?> findShoes(String name,BuildContext context) async {
     final db = await _getDB();
     final List<Map<String, dynamic>> maps = await db
         .query("Shoes", where: 'nameshoes LIKE ?', whereArgs: ['%$name%']);
     if (maps.isEmpty) {
+      ScaffoldMessenger.of(context).showSnackBar(
+          const SnackBar(content: Text('Sản Phẩm Không Tồn Tại')));
       return null;
     }
+
     return List.generate(maps.length, (index) => Shoes.fromJson(maps[index]));
   }
 

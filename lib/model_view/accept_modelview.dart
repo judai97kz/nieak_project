@@ -9,6 +9,8 @@ import 'package:nieak_project/model_view/bill_modelview.dart';
 import 'package:nieak_project/model_view/key_cart_user.dart';
 import 'package:nieak_project/screen/cm_screen.dart';
 
+import '../model/orderbill_model.dart';
+
 class AcceptModelView extends GetxController {
   var acceptstate = 0.obs;
   var acceptnull = 0.obs;
@@ -46,7 +48,15 @@ class AcceptModelView extends GetxController {
           billtime: formattedDate,
           contentbill: name,
           pricebill: getcart.allprice.toInt());
+      OrderBillModel b = OrderBillModel(
+          idbill: now.toString(),
+          billtime: formattedDate,
+          contentbill: name,
+          pricebill: getcart.allprice.toInt(),
+        userorder: checkuser.user.value!.username
+      );
       pay.addBill(a);
+      pay.addOrderBill(b);
       User upuser = User(
           username: checkuser.user.value!.username,
           password: checkuser.user.value!.password,

@@ -1,15 +1,11 @@
 import 'dart:io';
 import 'dart:typed_data';
-
 import 'package:carousel_slider/carousel_slider.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:image_picker/image_picker.dart';
-
-import '../model/image_model.dart';
 import '../model/shoes_model.dart';
 import '../model_view/add_new.dart';
-import '../model_view/add_product_modelview.dart';
 import '../model_view/brand_modelview.dart';
 import '../model_view/edit_product_modelview.dart';
 import '../model_view/image_modelview.dart';
@@ -70,6 +66,7 @@ class _EditProductPageState extends State<EditProductPage> {
     brandmana.brandState.value = widget.model.brand;
     return Scaffold(
       appBar: AppBar(
+        title: Text("Sửa Thông Tin Sản Phẩm"),
         leading: BackButton(onPressed: () {
           theindex.index.value = 0;
           imageFileList = [];
@@ -87,30 +84,38 @@ class _EditProductPageState extends State<EditProductPage> {
                   () => Expanded(
                     flex: 1,
                     child: Padding(
-                      padding: const EdgeInsets.all(2.0),
+                      padding: const EdgeInsets.all(6.0),
                       child: Positioned.fill(
-                        child: CarouselSlider(
-                          options: CarouselOptions(
-                              enlargeCenterPage: true,
-                              enableInfiniteScroll: true),
-                          items: [
-                            for (int i = 0; i < imagemodel.listimg.length; i++)
-                              Stack(
-                                children: [
-                                  Align(
-                                      alignment: Alignment.center,
-                                      child: Container(
-                                        child: convertImg(i),
-                                      )),
-                                ],
-                              )
-                          ],
+                        child: Container(
+                          decoration: BoxDecoration(
+                            border: Border.all(color: Colors.black)
+                          ),
+                          child: CarouselSlider(
+                            options: CarouselOptions(
+                                enlargeCenterPage: true,
+                                enableInfiniteScroll: true),
+                            items: [
+                              for (int i = 0; i < imagemodel.listimg.length; i++)
+                                Stack(
+                                  children: [
+                                    Align(
+                                        alignment: Alignment.center,
+                                        child: Container(
+                                          child: convertImg(i),
+                                        )),
+                                  ],
+                                )
+                            ],
+                          ),
                         ),
                       ),
                     ),
                   ),
                 ),
                 Container(
+                  decoration: BoxDecoration(
+                      border: Border.all(color: Colors.black)
+                  ),
                   height: 50,
                   child: ListView.builder(
                     shrinkWrap: true,
@@ -238,7 +243,8 @@ class _EditProductPageState extends State<EditProductPage> {
                           brandmana.brandState.value,
                           imageFileList,
                           context,
-                          imagemodel.listimg.length
+                          imagemodel.listimg.length,
+                          widget.model.rating
                       );
                     },
                     decoration: InputDecoration(
@@ -262,7 +268,7 @@ class _EditProductPageState extends State<EditProductPage> {
                           brandmana.brandState.value,
                         imageFileList,
                         context,
-                        imagemodel.listimg.length
+                        imagemodel.listimg.length,widget.model.rating
                       );
                     },
                     child: const Text("Cập Nhật Sản Phẩm")),

@@ -8,6 +8,8 @@ import 'package:nieak_project/model_view/bill_modelview.dart';
 import 'package:nieak_project/model_view/key_cart_user.dart';
 import 'package:nieak_project/screen/pay_screen.dart';
 
+import 'bill_screen.dart';
+
 class MyCart extends StatefulWidget {
   const MyCart({super.key});
 
@@ -23,8 +25,22 @@ class _MyCartState extends State<MyCart> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      appBar:
-          AppBar(title: const Text("Giỏ Hàng"), backgroundColor: Colors.orange),
+      appBar: AppBar(
+        title: const Text("Giỏ Hàng"),
+        backgroundColor: Colors.orange,
+        actions: [
+          Padding(
+            padding: const EdgeInsets.all(8.0),
+            child: GestureDetector(
+              onTap: (){
+                Navigator.push(context,
+                    MaterialPageRoute(builder: (context) => const MyBill()));
+              },
+              child: Icon(Icons.shopping_basket),
+            ),
+          )
+        ],
+      ),
       body: Obx(
         () => Padding(
           padding: const EdgeInsets.all(8.0),
